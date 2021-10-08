@@ -29,22 +29,27 @@ class Gestionar extends StatelessWidget {
             children: const [
               BigCard(
                 title: 'Cotizar',
+                ruta: 'cotizarScreen',
                 toImage: 'assets/big_icon/cotizar.png',
               ),
               BigCard(
                 title: 'Agendar cita',
+                ruta: 'citasScreen',
                 toImage: 'assets/big_icon/citas.png',
               ),
               BigCard(
                 title: 'Eventos',
+                ruta: 'eventosScreen',
                 toImage: 'assets/big_icon/eventos.png',
               ),
               BigCard(
                 title: 'Alta Clientes',
+                ruta: 'clientesScreen',
                 toImage: 'assets/big_icon/clientes.png',
               ),
               BigCard(
                 title: 'Alta Servicios',
+                ruta: 'serviciosScreen',
                 toImage: 'assets/big_icon/servicios.png',
               ),
             ],

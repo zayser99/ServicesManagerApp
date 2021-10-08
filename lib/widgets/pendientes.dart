@@ -5,20 +5,21 @@ class Pendientes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return contenedorlista();
+    return contenedorlista('8 de octubre');
   }
 }
 
-Widget contenedorlista() {
+Widget contenedorlista(String fecha) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Container(
         padding: const EdgeInsets.only(top: 10, left: 5),
         margin: const EdgeInsets.only(left: 5, right: 5),
-        child: const Text('Pendientes del dia',
+        child: Text('Pendientes del dia de hoy, $fecha',
+            overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.start,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
       ),
       Container(
         width: double.infinity,
@@ -38,11 +39,11 @@ Widget contenedorlista() {
         ),
         child: ListView(
           children: [
-            pendiente(),
-            pendiente(),
-            pendiente(),
-            pendiente(),
-            pendiente(),
+            pendiente(true, 'cita con maria juarez'),
+            pendiente(false, 'cita con juan escutia'),
+            pendiente(false, 'cita con pablo lopez'),
+            pendiente(true, 'cita con oscar suarez'),
+            pendiente(false, 'cita con ana zavala'),
           ],
         ),
       ),
@@ -50,8 +51,7 @@ Widget contenedorlista() {
   );
 }
 
-Widget pendiente() {
-  bool activado = false;
+Widget pendiente(bool activado, String titulo) {
   return Row(
     children: [
       Checkbox(
@@ -60,7 +60,7 @@ Widget pendiente() {
           activado = valor!;
         },
       ),
-      const Text('Trabajo de plomeria'),
+      Text(titulo),
     ],
   );
 }

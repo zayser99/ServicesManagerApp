@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 
 class BigCard extends StatelessWidget {
   final String? title;
+  final String? ruta;
   final String? toImage;
 
-  const BigCard({Key? key, this.title, required this.toImage})
+  const BigCard({Key? key, this.title, this.ruta, required this.toImage})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return contenedor(context);
+    return contenedor(context, ruta!);
   }
 
-  Widget contenedor(context) {
+  Widget contenedor(context, String ruta) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, 'eventos');
+        Navigator.pushNamed(context, ruta);
       },
       child: Container(
         padding: const EdgeInsets.all(6),
