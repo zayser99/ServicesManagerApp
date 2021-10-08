@@ -23,16 +23,28 @@ class ThisWeek extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             children: const [
               MiniCard(
-                  title: 'Servicios   ', toImage: 'servicios.png', dato: '15'),
+                title: 'Servicios   ',
+                toImage: 'assets/icons/servicios.png',
+                dato: '15',
+              ),
               SizedBox(width: 20),
               MiniCard(
-                  title: 'Ganancias', toImage: 'ganancias.png', dato: '34.4k'),
+                title: 'Ganancias',
+                toImage: 'assets/icons/ganancias.png',
+                dato: '34.4k',
+              ),
               SizedBox(width: 20),
               MiniCard(
-                  title: 'Pendientes   ', toImage: 'pendientes.png', dato: '8'),
+                title: 'Pendientes   ',
+                toImage: 'assets/icons/pendientes.png',
+                dato: '8',
+              ),
               SizedBox(width: 20),
               MiniCard(
-                  title: 'clientes at.', toImage: 'clientes1.png', dato: '15'),
+                title: 'clientes at.',
+                toImage: 'assets/icons/clientes1.png',
+                dato: '15',
+              ),
             ],
           ),
         ),

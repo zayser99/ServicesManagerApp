@@ -34,7 +34,7 @@ class BigCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image(
-            image: AssetImage('assets/icons/$toImage'),
+            image: AssetImage('$toImage'),
             width: 50,
             height: 50,
           ),

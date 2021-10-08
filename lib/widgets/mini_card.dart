@@ -46,7 +46,7 @@ class MiniCard extends StatelessWidget {
           ),
           const SizedBox(width: 13),
           Image(
-            image: AssetImage('assets/icons/$toImage'),
+            image: AssetImage('$toImage'),
             width: 20,
             height: 20,
           ),
