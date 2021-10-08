@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       initialRoute: 'home',
       routes: {
         'home': (_) => const HomeScreen(),
+        'eventos': (_) => const EventosScreen(),
       },
       theme: ThemeData.light().copyWith(
         appBarTheme: const AppBarTheme(
