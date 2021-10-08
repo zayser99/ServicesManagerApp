@@ -42,19 +42,25 @@ Widget contenedorlista(context, String fecha) {
               ),
             ],
           ),
+          //cambiar por lisview builder
           child: ListView(
-            children: [
-              pendiente(true, 'cita con maria juarez'),
-              pendiente(false, 'cita con juan escutia'),
-              pendiente(false, 'cita con pablo lopez'),
-              pendiente(true, 'cita con oscar suarez'),
-              pendiente(false, 'cita con ana zavala'),
-            ],
+            //cambiar esta lista por la consulta
+            children: listaPendientes(),
           ),
         ),
       ],
     ),
   );
+}
+
+List<Widget> listaPendientes() {
+  return [
+    pendiente(true, 'cita con maria juarez'),
+    pendiente(false, 'cita con juan escutia'),
+    pendiente(false, 'cita con pablo lopez'),
+    pendiente(true, 'cita con oscar suarez'),
+    pendiente(false, 'cita con ana zavala'),
+  ];
 }
 
 Widget pendiente(bool activado, String titulo) {

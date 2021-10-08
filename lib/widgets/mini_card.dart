@@ -10,10 +10,6 @@ class MiniCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return contenedor();
-  }
-
-  Widget contenedor() {
     return Container(
       padding: const EdgeInsets.all(6),
       width: 130,
