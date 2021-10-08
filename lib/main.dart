@@ -16,7 +16,13 @@ class MyApp extends StatelessWidget {
       initialRoute: 'home',
       routes: {
         'home': (_) => const HomeScreen(),
-        'eventos': (_) => const EventosScreen(),
+        'eventosScreen': (_) => const EventosScreen(),
+        'pendientesScreen': (_) => const PendientesScreen(),
+        'citasScreen': (_) => const CitasScreen(),
+        'clientesScreen': (_) => const ClientesScreen(),
+        'cotizarScreen': (_) => const CotizarScreen(),
+        'estadisticasScreen': (_) => const EstadisticasScreen(),
+        'serviciosScreen': (_) => const ServiciosScreen(),
       },
       theme: ThemeData.light().copyWith(
         appBarTheme: const AppBarTheme(
