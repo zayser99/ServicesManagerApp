@@ -17,8 +17,8 @@ class BigCard extends StatelessWidget {
       },
       child: Container(
         padding: const EdgeInsets.all(6),
-        width: 300,
-        height: 300,
+        width: 200,
+        height: 200,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10.0),

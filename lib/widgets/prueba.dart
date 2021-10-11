@@ -5,8 +5,6 @@ class PRueba extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: const Text('Haaaaaa'),
-    );
+    return Container();
   }
 }

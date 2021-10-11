@@ -5,52 +5,49 @@ class Pendientes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return contenedorlista(context, '8 de octubre');
-  }
-}
+    final size = MediaQuery.of(context).size;
 
-Widget contenedorlista(context, String fecha) {
-  return GestureDetector(
-    onTap: () {
-      Navigator.pushNamed(context, 'pendientesScreen');
-    },
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          padding: const EdgeInsets.only(top: 10, left: 5),
-          margin: const EdgeInsets.only(left: 5, right: 5),
-          child: Text('Pendientes del dia de hoy, $fecha',
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.start,
-              style:
-                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-        ),
-        Container(
-          width: double.infinity,
-          height: 175,
-          margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10.0),
-            boxShadow: const <BoxShadow>[
-              BoxShadow(
-                color: Colors.black,
-                blurRadius: 5,
-                spreadRadius: -1,
-                offset: Offset(0, 0),
-              ),
-            ],
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, 'pendientesScreen');
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.only(top: 10, left: 5),
+            margin: const EdgeInsets.only(left: 5, right: 5),
+            child: const Text('Pendientes del dia de hoy',
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.start,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
           ),
-          //cambiar por lisview builder
-          child: ListView(
-            //cambiar esta lista por la consulta
-            children: listaPendientes(),
+          Container(
+            width: double.infinity,
+            height: size.height * 0.22,
+            margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: const <BoxShadow>[
+                BoxShadow(
+                  color: Colors.black,
+                  blurRadius: 5,
+                  spreadRadius: -1,
+                  offset: Offset(0, 0),
+                ),
+              ],
+            ),
+            //cambiar por lisview builder
+            child: ListView(
+              //cambiar esta lista por la consulta
+              children: listaPendientes(),
+            ),
           ),
-        ),
-      ],
-    ),
-  );
+        ],
+      ),
+    );
+  }
 }
 
 List<Widget> listaPendientes() {
@@ -64,15 +61,23 @@ List<Widget> listaPendientes() {
 }
 
 Widget pendiente(bool activado, String titulo) {
-  return Row(
-    children: [
-      Checkbox(
-        value: activado,
-        onChanged: (valor) {
-          activado = valor!;
-        },
-      ),
-      Text(titulo),
-    ],
+  return Container(
+    padding: const EdgeInsets.only(bottom: 5, top: 6, left: 8),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        iconActivado(activado),
+        const SizedBox(width: 4),
+        Text(titulo),
+      ],
+    ),
   );
+}
+
+Widget iconActivado(bool activado) {
+  if (activado) {
+    return const Icon(Icons.check_circle, color: Colors.indigo);
+  } else {
+    return const Icon(Icons.circle_outlined, color: Colors.indigo);
+  }
 }

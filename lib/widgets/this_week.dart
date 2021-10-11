@@ -6,6 +6,7 @@ class ThisWeek extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, 'estadisticasScreen');
@@ -20,7 +21,7 @@ class ThisWeek extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
           ),
           SizedBox(
-            height: 80,
+            height: size.height * 0.10,
             width: double.infinity,
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),

@@ -6,6 +6,7 @@ class Gestionar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -17,7 +18,7 @@ class Gestionar extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height - 440,
+          height: size.height * 0.43,
           width: double.infinity,
           child: GridView.count(
             padding:
