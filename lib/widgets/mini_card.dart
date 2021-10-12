@@ -13,7 +13,7 @@ class MiniCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(6),
       width: 130,
-      height: 60,
+      height: double.infinity,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10.0),
@@ -32,19 +32,25 @@ class MiniCard extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('$dato',
+              Expanded(
+                child: Text(
+                  '$dato',
                   textAlign: TextAlign.start,
                   style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 16)),
-              const SizedBox(height: 10),
-              Text('$title', textAlign: TextAlign.start),
+                      fontWeight: FontWeight.bold, fontSize: 16),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Text('$title',
+                  textAlign: TextAlign.start, overflow: TextOverflow.ellipsis),
             ],
           ),
-          const SizedBox(width: 13),
-          Image(
-            image: AssetImage('$toImage'),
-            width: 20,
-            height: 20,
+          Expanded(
+            child: Image(
+              image: AssetImage('$toImage'),
+              width: 20,
+              height: 20,
+            ),
           ),
         ],
       ),
