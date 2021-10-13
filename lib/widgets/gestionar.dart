@@ -44,12 +44,12 @@ class Gestionar extends StatelessWidget {
                 toImage: 'assets/big_icon/eventos.png',
               ),
               BigCard(
-                title: 'Alta Clientes',
+                title: 'Clientes',
                 ruta: 'clientesScreen',
                 toImage: 'assets/big_icon/clientes.png',
               ),
               BigCard(
-                title: 'Alta Servicios',
+                title: 'Servicios',
                 ruta: 'serviciosScreen',
                 toImage: 'assets/big_icon/servicios.png',
               ),

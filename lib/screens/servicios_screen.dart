@@ -134,14 +134,41 @@ Widget servicioItem() {
         Expanded(
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text(
+          children: [
+            const Text(
               'Intalacion de Rotoplas',
               textAlign: TextAlign.left,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               overflow: TextOverflow.ellipsis,
             ),
-            Expanded(
+            Row(
+              children: const [
+                Text(
+                  '\$5,000mnx',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Colors.indigo),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(
+                  width: 2,
+                ),
+                Expanded(
+                  child: Text(
+                    'fontaneria',
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+            const Expanded(
                 child: Text(
               'consta de intalar el rotopas y las tuberias necesarias para el correcto funcionamiento del mismo',
               overflow: TextOverflow.fade,

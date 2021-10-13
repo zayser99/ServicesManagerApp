@@ -36,7 +36,7 @@ class ThisWeek extends StatelessWidget {
                 MiniCard(
                   title: 'Ganancias',
                   toImage: 'assets/icons/ganancias.png',
-                  dato: '34.4k',
+                  dato: '\$34.4k',
                 ),
                 SizedBox(width: 20),
                 MiniCard(
