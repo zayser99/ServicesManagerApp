@@ -9,18 +9,24 @@ class ClientesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Clientes'),
+        actions: [
+          IconButton(
+              icon: const Icon(Icons.search_outlined), onPressed: () => {}
+              //   showSearch(context: context, delegate: MovieSearchDelegate()),
+              )
+        ],
       ),
       body: Column(
         children: [
-          botonAddCliente(size.height * 0.10),
-          lisviewClientes(),
+          _botonAddCliente(size.height * 0.10),
+          _lisviewClientes(),
         ],
       ),
     );
   }
 }
 
-Widget botonAddCliente(alto) {
+Widget _botonAddCliente(alto) {
   return SizedBox(
       width: double.infinity / 2,
       height: alto,
@@ -47,6 +53,7 @@ Widget botonAddCliente(alto) {
                 child: Text(
                   'cliente',
                   style: TextStyle(
+                    fontWeight: FontWeight.bold,
                     color: Colors.white,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -59,39 +66,21 @@ Widget botonAddCliente(alto) {
       ));
 }
 
-Widget lisviewClientes() {
+Widget _lisviewClientes() {
   return Expanded(
     child: SizedBox(
       width: double.infinity,
-      child: ListView(
-        children: listaClientes(),
+      child: ListView.builder(
+        itemCount: 15,
+        itemBuilder: (BuildContext context, int index) {
+          return _clienteItem();
+        },
       ),
     ),
   );
 }
 
-List<Widget> listaClientes() {
-  return [
-    clienteItem(),
-    clienteItem(),
-    clienteItem(),
-    clienteItem(),
-    clienteItem(),
-    clienteItem(),
-    clienteItem(),
-    clienteItem(),
-    clienteItem(),
-    clienteItem(),
-    clienteItem(),
-    clienteItem(),
-    clienteItem(),
-    clienteItem(),
-    clienteItem(),
-    clienteItem(),
-  ];
-}
-
-Widget clienteItem() {
+Widget _clienteItem() {
   return Container(
     margin: const EdgeInsets.all(10),
     padding: const EdgeInsets.all(10),

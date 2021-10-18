@@ -9,31 +9,37 @@ class ServiciosScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Servicios'),
+        actions: [
+          IconButton(
+              icon: const Icon(Icons.search_outlined), onPressed: () => {}
+              //   showSearch(context: context, delegate: MovieSearchDelegate()),
+              )
+        ],
       ),
       body: Column(
         children: [
-          botones(size.height * 0.10),
-          lisviewServicios(),
+          _botones(size.height * 0.10),
+          _lisviewServicios(),
         ],
       ),
     );
   }
 }
 
-Widget botones(alto) {
+Widget _botones(alto) {
   return SizedBox(
     width: double.infinity,
     height: alto,
     child: Row(
       children: [
-        botonAdd('Servicio'),
-        botonAdd('tipo de Servicio'),
+        _botonAdd('Servicio'),
+        _botonAdd('tipo de Servicio'),
       ],
     ),
   );
 }
 
-Widget botonAdd(titulo) {
+Widget _botonAdd(titulo) {
   return Expanded(
     child: Container(
       margin: const EdgeInsets.all(10),
@@ -57,6 +63,7 @@ Widget botonAdd(titulo) {
             child: Text(
               titulo,
               style: const TextStyle(
+                fontWeight: FontWeight.bold,
                 color: Colors.white,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -69,35 +76,21 @@ Widget botonAdd(titulo) {
   );
 }
 
-Widget lisviewServicios() {
+Widget _lisviewServicios() {
   return Expanded(
     child: SizedBox(
       width: double.infinity,
-      child: ListView(
-        children: listaServicios(),
+      child: ListView.builder(
+        itemCount: 20,
+        itemBuilder: (BuildContext context, int index) {
+          return _servicioItem();
+        },
       ),
     ),
   );
 }
 
-List<Widget> listaServicios() {
-  return [
-    servicioItem(),
-    servicioItem(),
-    servicioItem(),
-    servicioItem(),
-    servicioItem(),
-    servicioItem(),
-    servicioItem(),
-    servicioItem(),
-    servicioItem(),
-    servicioItem(),
-    servicioItem(),
-    servicioItem(),
-  ];
-}
-
-Widget servicioItem() {
+Widget _servicioItem() {
   return Container(
     margin: const EdgeInsets.all(10),
     padding: const EdgeInsets.all(10),
