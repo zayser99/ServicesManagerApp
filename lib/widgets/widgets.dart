@@ -7,3 +7,4 @@ export 'package:services_manager_app/widgets/tarjeta_pendientes.dart';
 export 'package:services_manager_app/widgets/tarjeta_clientes.dart';
 export 'package:services_manager_app/widgets/tarjeta_servicios.dart';
 export 'package:services_manager_app/widgets/tarjeta_eventos.dart';
+export 'package:services_manager_app/widgets/tarjeta_citas.dart';
