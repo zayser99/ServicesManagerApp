@@ -105,12 +105,7 @@ class _TarjetaPendientesState extends State<TarjetaPendientes> {
             padding: const EdgeInsets.only(left: 10),
             child: Column(
               children: [
-                const Expanded(
-                  child: Icon(
-                    Icons.arrow_drop_down_circle_sharp,
-                    color: Colors.indigo,
-                  ),
-                ),
+                Expanded(child: _desplegableBorEdit()),
                 Checkbox(
                   checkColor: Colors.white,
                   activeColor: Colors.indigo,
@@ -127,5 +122,39 @@ class _TarjetaPendientesState extends State<TarjetaPendientes> {
         ],
       ),
     );
+  }
+
+  Widget _desplegableBorEdit() {
+    return PopupMenuButton(
+        child: const Icon(
+          Icons.arrow_drop_down_circle_sharp,
+          color: Colors.indigo,
+        ),
+        itemBuilder: (context) => [
+              PopupMenuItem(
+                child: Row(
+                  children: const [
+                    Expanded(child: Text("Eliminar")),
+                    Icon(
+                      Icons.delete,
+                      color: Colors.indigo,
+                    ),
+                  ],
+                ),
+                onTap: () {},
+              ),
+              PopupMenuItem(
+                child: Row(
+                  children: const [
+                    Expanded(child: Text("Editar")),
+                    Icon(
+                      Icons.edit,
+                      color: Colors.indigo,
+                    ),
+                  ],
+                ),
+                onTap: () {},
+              )
+            ]);
   }
 }

@@ -89,14 +89,44 @@ class _TarjetaServiciosState extends State<TarjetaServicios> {
             ],
           )),
           Container(
-            padding: const EdgeInsets.only(left: 10),
-            child: const Icon(
-              Icons.arrow_drop_down_circle_sharp,
-              color: Colors.indigo,
-            ),
-          ),
+              padding: const EdgeInsets.only(left: 10),
+              child: _desplegableBorEdit()),
         ],
       ),
     );
+  }
+
+  Widget _desplegableBorEdit() {
+    return PopupMenuButton(
+        child: const Icon(
+          Icons.arrow_drop_down_circle_sharp,
+          color: Colors.indigo,
+        ),
+        itemBuilder: (context) => [
+              PopupMenuItem(
+                child: Row(
+                  children: const [
+                    Expanded(child: Text("Eliminar")),
+                    Icon(
+                      Icons.delete,
+                      color: Colors.indigo,
+                    ),
+                  ],
+                ),
+                onTap: () {},
+              ),
+              PopupMenuItem(
+                child: Row(
+                  children: const [
+                    Expanded(child: Text("Editar")),
+                    Icon(
+                      Icons.edit,
+                      color: Colors.indigo,
+                    ),
+                  ],
+                ),
+                onTap: () {},
+              )
+            ]);
   }
 }
