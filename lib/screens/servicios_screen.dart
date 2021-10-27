@@ -19,7 +19,7 @@ class ServiciosScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          _botones(size.height * 0.10),
+          _botones(size.height * 0.10, context),
           _lisviewServicios(),
         ],
       ),
@@ -27,51 +27,56 @@ class ServiciosScreen extends StatelessWidget {
   }
 }
 
-Widget _botones(alto) {
+Widget _botones(alto, context) {
   return SizedBox(
     width: double.infinity,
     height: alto,
     child: Row(
       children: [
-        _botonAdd('Servicio'),
-        _botonAdd('tipo de Servicio'),
+        _botonAdd('Servicio', 'agregarServicio', context),
+        _botonAdd('tipo de Servicio', 'agregarTipoServicio', context),
       ],
     ),
   );
 }
 
-Widget _botonAdd(titulo) {
+Widget _botonAdd(titulo, ruta, context) {
   return Expanded(
-    child: Container(
-      margin: const EdgeInsets.all(10),
-      padding: const EdgeInsets.all(10),
-      height: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.indigo[400],
-        borderRadius: BorderRadius.circular(10.0),
-        boxShadow: const <BoxShadow>[
-          BoxShadow(
-            color: Colors.black,
-            blurRadius: 5,
-            spreadRadius: -1,
-            offset: Offset(0, 0),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              titulo,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                overflow: TextOverflow.ellipsis,
+    child: GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, ruta);
+      },
+      child: Container(
+        margin: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
+        height: double.infinity,
+        decoration: BoxDecoration(
+          color: Colors.indigo[400],
+          borderRadius: BorderRadius.circular(10.0),
+          boxShadow: const <BoxShadow>[
+            BoxShadow(
+              color: Colors.black,
+              blurRadius: 5,
+              spreadRadius: -1,
+              offset: Offset(0, 0),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                titulo,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ),
-          ),
-          const Icon(Icons.add, color: Colors.white),
-        ],
+            const Icon(Icons.add, color: Colors.white),
+          ],
+        ),
       ),
     ),
   );

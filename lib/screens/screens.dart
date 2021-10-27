@@ -6,3 +6,8 @@ export 'package:services_manager_app/screens/cotizar_screen.dart';
 export 'package:services_manager_app/screens/estadisticas_screen.dart';
 export 'package:services_manager_app/screens/pendientes_screen.dart';
 export 'package:services_manager_app/screens/servicios_screen.dart';
+//formularios
+export 'package:services_manager_app/screens/forms/agregar_servicio.dart';
+export 'package:services_manager_app/screens/forms/agregar_servicio.dart';
+export 'package:services_manager_app/screens/forms/editar_servicio.dart';
+export 'package:services_manager_app/screens/forms/agregar_tipo_servicio.dart';

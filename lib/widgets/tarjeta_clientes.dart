@@ -69,7 +69,7 @@ class _TarjetaClientesState extends State<TarjetaClientes> {
                 textAlign: TextAlign.justify,
               ),
               Text(
-                'Rfc:  ' + 'MELM8305281H0',
+                'Rfc:  MELM8305281H0',
                 textAlign: TextAlign.left,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,

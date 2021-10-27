@@ -30,6 +30,10 @@ class MyApp extends StatelessWidget {
         'cotizarScreen': (_) => const CotizarScreen(),
         'estadisticasScreen': (_) => const EstadisticasScreen(),
         'serviciosScreen': (_) => const ServiciosScreen(),
+        //formularios
+        'agregarServicio': (_) => const AgregarServicio(),
+        'agregarTipoServicio': (_) => const AgregarTipoServicio(),
+        'EditarServicio': (_) => const EditarServicio(),
       },
       onGenerateRoute: (settings) {
         return MaterialPageRoute(
