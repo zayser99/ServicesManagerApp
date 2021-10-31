@@ -7,10 +7,38 @@ class AgregarTipoServicio extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text('Agregar tipo de Servicio'),
-        //  automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.check),
+            tooltip: 'agregar tipo de Servicio',
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
       ),
-      body: const Text('tipo servicios'),
+      body: ListView(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+        children: [
+          _inputNombre(),
+          const Divider(height: 60),
+        ],
+      ),
+    );
+  }
+
+  Widget _inputNombre() {
+    return TextField(
+      textCapitalization: TextCapitalization.characters,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+        hintText: 'nombre del servicio',
+        labelText: 'Nombre',
+        helperText: 'Lo mas descriptivo posible.',
+        icon: const Icon(Icons.build_circle_outlined),
+      ),
     );
   }
 }
