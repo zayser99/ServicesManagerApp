@@ -31,7 +31,6 @@ class AgregarTipoServicio extends StatelessWidget {
 
   Widget _inputNombre() {
     return TextField(
-      textCapitalization: TextCapitalization.characters,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
         hintText: 'nombre del servicio',

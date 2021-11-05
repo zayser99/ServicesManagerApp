@@ -57,7 +57,6 @@ class _EditarServicioState extends State<EditarServicio> {
 
   Widget _inputNombre() {
     return TextField(
-      textCapitalization: TextCapitalization.characters,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
         hintText: 'nombre del servicio',
@@ -70,7 +69,6 @@ class _EditarServicioState extends State<EditarServicio> {
 
   Widget _inputPrecio() {
     return TextField(
-      textCapitalization: TextCapitalization.characters,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
@@ -83,7 +81,6 @@ class _EditarServicioState extends State<EditarServicio> {
 
   Widget _inputDesc() {
     return TextField(
-      textCapitalization: TextCapitalization.characters,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
         hintText: 'Descripción',
