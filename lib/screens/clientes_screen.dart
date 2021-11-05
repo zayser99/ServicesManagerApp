@@ -19,7 +19,7 @@ class ClientesScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          _botonAddCliente(size.height * 0.10),
+          _botonAddCliente(size.height * 0.10, context, 'AgregarCliente'),
           _lisviewClientes(),
         ],
       ),
@@ -27,42 +27,47 @@ class ClientesScreen extends StatelessWidget {
   }
 }
 
-Widget _botonAddCliente(alto) {
-  return SizedBox(
-      width: double.infinity / 2,
-      height: alto,
-      child: Container(
-        margin: const EdgeInsets.all(10),
-        padding: const EdgeInsets.all(10),
-        height: double.infinity,
-        decoration: BoxDecoration(
-          color: Colors.indigo[400],
-          borderRadius: BorderRadius.circular(10.0),
-          boxShadow: const <BoxShadow>[
-            BoxShadow(
-              color: Colors.black,
-              blurRadius: 5,
-              spreadRadius: -1,
-              offset: Offset(0, 0),
-            ),
-          ],
-        ),
-        child: Row(
-          children: const [
-            Expanded(
-              child: Text(
-                'cliente',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  overflow: TextOverflow.ellipsis,
+Widget _botonAddCliente(alto, context, ruta) {
+  return GestureDetector(
+    onTap: () {
+      Navigator.pushNamed(context, ruta);
+    },
+    child: SizedBox(
+        width: double.infinity / 2,
+        height: alto,
+        child: Container(
+          margin: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
+          height: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.indigo[400],
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: const <BoxShadow>[
+              BoxShadow(
+                color: Colors.black,
+                blurRadius: 5,
+                spreadRadius: -1,
+                offset: Offset(0, 0),
+              ),
+            ],
+          ),
+          child: Row(
+            children: const [
+              Expanded(
+                child: Text(
+                  'cliente',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
-            ),
-            Icon(Icons.add, color: Colors.white),
-          ],
-        ),
-      ));
+              Icon(Icons.add, color: Colors.white),
+            ],
+          ),
+        )),
+  );
 }
 
 Widget _lisviewClientes() {

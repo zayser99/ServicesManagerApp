@@ -13,3 +13,5 @@ export 'package:services_manager_app/screens/forms/editar_servicio.dart';
 export 'package:services_manager_app/screens/forms/agregar_tipo_servicio.dart';
 export 'package:services_manager_app/screens/forms/agregar_cita.dart';
 export 'package:services_manager_app/screens/forms/editar_cita.dart';
+export 'package:services_manager_app/screens/forms/agregar_cliente.dart';
+export 'package:services_manager_app/screens/forms/editar_cliente.dart';

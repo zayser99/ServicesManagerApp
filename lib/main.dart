@@ -36,6 +36,8 @@ class MyApp extends StatelessWidget {
         'EditarServicio': (_) => const EditarServicio(),
         'AgregarCita': (_) => const AgregarCita(),
         'EditarCita': (_) => const EditarCita(),
+        'AgregarCliente': (_) => const AgregarCliente(),
+        'EditarCliente': (_) => const EditarCliente(),
       },
       onGenerateRoute: (settings) {
         return MaterialPageRoute(
