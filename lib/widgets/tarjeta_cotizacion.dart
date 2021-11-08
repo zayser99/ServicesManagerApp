@@ -105,36 +105,70 @@ class _TarjetaCotizacionState extends State<TarjetaCotizacion> {
   }
 
   Widget _desplegableBorEdit() {
-    return PopupMenuButton(
-        child: const Icon(
-          Icons.arrow_drop_down_circle_sharp,
-          color: Colors.indigo,
-        ),
-        itemBuilder: (context) => [
-              PopupMenuItem(
-                child: Row(
-                  children: const [
-                    Expanded(child: Text("Eliminar")),
-                    Icon(
-                      Icons.delete,
-                      color: Colors.indigo,
-                    ),
-                  ],
-                ),
-                onTap: () {},
+    return PopupMenuButton<String>(
+      child: const Icon(
+        Icons.arrow_drop_down_circle_sharp,
+        color: Colors.indigo,
+      ),
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          child: Row(
+            children: const [
+              Expanded(child: Text("Eliminar")),
+              Icon(
+                Icons.delete,
+                color: Colors.indigo,
               ),
-              PopupMenuItem(
-                child: Row(
-                  children: const [
-                    Expanded(child: Text("Editar")),
-                    Icon(
-                      Icons.edit,
-                      color: Colors.indigo,
+            ],
+          ),
+          value: 'eliminar',
+        ),
+        PopupMenuItem(
+          child: Row(
+            children: const [
+              Expanded(child: Text("Editar")),
+              Icon(
+                Icons.edit,
+                color: Colors.indigo,
+              ),
+            ],
+          ),
+          value: 'EditarCotizacion',
+        )
+      ],
+      onSelected: (route) {
+        if (route == 'eliminar') {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text(
+                    'Eliminar',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                  content: const Text(
+                    '¿Seguro que desea Eliminar Esta Cotización',
+                  ),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, 'Cancel'),
+                      child: const Text(
+                        'Cancel',
+                        style: TextStyle(color: Colors.indigo),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, 'OK'),
+                      child:
+                          const Text('OK', style: TextStyle(color: Colors.red)),
                     ),
                   ],
-                ),
-                onTap: () {},
-              )
-            ]);
+                );
+              });
+        } else {
+          Navigator.pushNamed(context, route);
+        }
+      },
+    );
   }
 }
