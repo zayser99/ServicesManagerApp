@@ -17,3 +17,5 @@ export 'package:services_manager_app/screens/forms/agregar_cliente.dart';
 export 'package:services_manager_app/screens/forms/editar_cliente.dart';
 export 'package:services_manager_app/screens/forms/agregar_cotizacion.dart';
 export 'package:services_manager_app/screens/forms/editar_cotizacion.dart';
+export 'package:services_manager_app/screens/forms/agregar_evento.dart';
+export 'package:services_manager_app/screens/forms/editar_evento.dart';

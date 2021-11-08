@@ -40,6 +40,8 @@ class MyApp extends StatelessWidget {
         'EditarCliente': (_) => const EditarCliente(),
         'AgregarCotizacion': (_) => const AgregarCotizacion(),
         'EditarCotizacion': (_) => const EditarCotizacion(),
+        'AgregarEvento': (_) => const AgregarEvento(),
+        'EditarEvento': (_) => const EditarEvento(),
       },
       onGenerateRoute: (settings) {
         return MaterialPageRoute(

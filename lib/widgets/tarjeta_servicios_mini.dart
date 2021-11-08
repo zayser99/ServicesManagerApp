@@ -110,7 +110,7 @@ class _TarjetaServiciosMiniState extends State<TarjetaServiciosMini> {
                   style: TextStyle(color: Colors.red),
                 ),
                 content: const Text(
-                  '¿Seguro que desea Eliminar "Instalacion de rotoplas" de tu cotización?',
+                  '¿Seguro que desea Eliminar "Instalacion de rotoplas" de tu lista?',
                 ),
                 actions: <Widget>[
                   TextButton(
