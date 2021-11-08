@@ -9,3 +9,4 @@ export 'package:services_manager_app/widgets/tarjeta_servicios.dart';
 export 'package:services_manager_app/widgets/tarjeta_eventos.dart';
 export 'package:services_manager_app/widgets/tarjeta_citas.dart';
 export 'package:services_manager_app/widgets/tarjeta_cotizacion.dart';
+export 'package:services_manager_app/widgets/tarjeta_servicios_mini.dart';
