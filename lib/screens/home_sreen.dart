@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:services_manager_app/providers/db_provider.dart';
 import 'package:services_manager_app/widgets/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -11,6 +12,16 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    // TODO: TEMPORAL  leer la base de datos
+    final cliente = ClienteModel(
+        id: 30,
+        nombre: 'jose',
+        apellido: 'lopez',
+        numero: '9382559558',
+        mail: 'zai@hotmail.com',
+        rfc: '123123123');
+
+    DBProvider.db.nuevoClienteRow(cliente);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Inicio'),

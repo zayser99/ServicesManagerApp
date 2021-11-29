@@ -2,6 +2,9 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
+// mis importaciones
+import 'package:services_manager_app/models/cliente_model.dart';
+export 'package:services_manager_app/models/cliente_model.dart';
 
 class DBProvider {
   static Database? _database;
@@ -109,5 +112,27 @@ class DBProvider {
           ''');
       },
     );
+  }
+
+  nuevoClienteRow(ClienteModel nuevoCliente) async {
+    final id = nuevoCliente.id;
+    final nombre = nuevoCliente.nombre;
+    final apellido = nuevoCliente.apellido;
+    final numero = nuevoCliente.numero;
+    final mail = nuevoCliente.mail;
+    final rfc = nuevoCliente.rfc;
+
+    final db = await database;
+    final res = await db.rawInsert('''
+     INSERT INTO CLIENTES(id_cli, nom_cli, ape_cli, num_cli, mail_cli, rfc_cli)
+     VALUES ($id, '$nombre', '$apellido', '$numero' , '$mail' , '$rfc')
+    ''');
+    return res;
+  }
+
+  Future<int> nuevoCliente(ClienteModel nuevoCliente) async {
+    final db = await database;
+    final res = await db.insert('CLIENTES', nuevoCliente.toJson());
+    return res;
   }
 }
