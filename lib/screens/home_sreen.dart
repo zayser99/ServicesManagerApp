@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
         mail: 'zai@hotmail.com',
         rfc: '123123123');
 
-    DBProvider.db.nuevoClienteRow(cliente);
+    DBProvider.db.nuevoCliente(cliente);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Inicio'),
