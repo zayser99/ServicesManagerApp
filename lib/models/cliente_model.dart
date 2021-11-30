@@ -23,12 +23,12 @@ class ClienteModel {
   String rfc;
 
   factory ClienteModel.fromJson(Map<String, dynamic> json) => ClienteModel(
-        id: json["id"],
-        nombre: json["nombre"],
-        apellido: json["apellido"],
-        numero: json["numero"],
-        mail: json["mail"],
-        rfc: json["rfc"],
+        id: json["id_cli"],
+        nombre: json["nom_cli"],
+        apellido: json["ape_cli"],
+        numero: json["num_cli"],
+        mail: json["mail_cli"],
+        rfc: json["rfc_cli"],
       );
 
   Map<String, dynamic> toJson() => {
