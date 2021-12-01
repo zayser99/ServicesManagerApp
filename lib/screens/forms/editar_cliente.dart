@@ -119,6 +119,9 @@ class _EditarClienteState extends State<EditarCliente> {
         labelText: 'Celular',
         icon: const Icon(Icons.smartphone),
       ),
+      onChanged: (valor) {
+        _celular = valor;
+      },
     );
   }
 
@@ -131,6 +134,9 @@ class _EditarClienteState extends State<EditarCliente> {
         labelText: 'RFC',
         icon: const Icon(Icons.account_circle),
       ),
+      onChanged: (valor) {
+        _rfc = valor;
+      },
     );
   }
 
@@ -143,6 +149,9 @@ class _EditarClienteState extends State<EditarCliente> {
         labelText: 'Correo',
         icon: const Icon(Icons.mail),
       ),
+      onChanged: (valor) {
+        _mail = valor;
+      },
     );
   }
 }
