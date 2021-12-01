@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:services_manager_app/providers/clientes_provider.dart';
 import 'package:services_manager_app/screens/screens.dart';
 
 void main() {
@@ -17,39 +19,42 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Service_manger_App',
-      initialRoute: 'home',
-      routes: {
-        'home': (_) => const HomeScreen(),
-        'eventosScreen': (_) => const EventosScreen(),
-        'pendientesScreen': (_) => const PendientesScreen(),
-        'citasScreen': (_) => const CitasScreen(),
-        'clientesScreen': (_) => const ClientesScreen(),
-        'cotizarScreen': (_) => const CotizarScreen(),
-        'estadisticasScreen': (_) => const EstadisticasScreen(),
-        'serviciosScreen': (_) => const ServiciosScreen(),
-        //formularios
-        'agregarServicio': (_) => const AgregarServicio(),
-        'agregarTipoServicio': (_) => const AgregarTipoServicio(),
-        'EditarServicio': (_) => const EditarServicio(),
-        'AgregarCita': (_) => const AgregarCita(),
-        'EditarCita': (_) => const EditarCita(),
-        'AgregarCliente': (_) => const AgregarCliente(),
-        'EditarCliente': (_) => const EditarCliente(),
-        'AgregarCotizacion': (_) => const AgregarCotizacion(),
-        'EditarCotizacion': (_) => const EditarCotizacion(),
-        'AgregarEvento': (_) => const AgregarEvento(),
-        'EditarEvento': (_) => const EditarEvento(),
-      },
-      onGenerateRoute: (settings) {
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const ServiciosScreen());
-      },
-      theme: ThemeData.light().copyWith(
-        appBarTheme: const AppBarTheme(
-          color: Colors.indigo,
+    return MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => ClientesProvider())],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Service_manger_App',
+        initialRoute: 'home',
+        routes: {
+          'home': (_) => const HomeScreen(),
+          'eventosScreen': (_) => const EventosScreen(),
+          'pendientesScreen': (_) => const PendientesScreen(),
+          'citasScreen': (_) => const CitasScreen(),
+          'clientesScreen': (_) => const ClientesScreen(),
+          'cotizarScreen': (_) => const CotizarScreen(),
+          'estadisticasScreen': (_) => const EstadisticasScreen(),
+          'serviciosScreen': (_) => const ServiciosScreen(),
+          //formularios
+          'agregarServicio': (_) => const AgregarServicio(),
+          'agregarTipoServicio': (_) => const AgregarTipoServicio(),
+          'EditarServicio': (_) => const EditarServicio(),
+          'AgregarCita': (_) => const AgregarCita(),
+          'EditarCita': (_) => const EditarCita(),
+          'AgregarCliente': (_) => const AgregarCliente(),
+          'EditarCliente': (_) => const EditarCliente(),
+          'AgregarCotizacion': (_) => const AgregarCotizacion(),
+          'EditarCotizacion': (_) => const EditarCotizacion(),
+          'AgregarEvento': (_) => const AgregarEvento(),
+          'EditarEvento': (_) => const EditarEvento(),
+        },
+        onGenerateRoute: (settings) {
+          return MaterialPageRoute(
+              builder: (BuildContext context) => const ServiciosScreen());
+        },
+        theme: ThemeData.light().copyWith(
+          appBarTheme: const AppBarTheme(
+            color: Colors.indigo,
+          ),
         ),
       ),
     );

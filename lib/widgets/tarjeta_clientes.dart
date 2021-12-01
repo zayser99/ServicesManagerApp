@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:services_manager_app/models/cliente_model.dart';
 
 class TarjetaClientes extends StatefulWidget {
-  const TarjetaClientes({Key? key}) : super(key: key);
-
+  final ClienteModel cliente;
+  const TarjetaClientes({Key? key, required this.cliente}) : super(key: key);
   @override
-  State<TarjetaClientes> createState() => _TarjetaClientesState();
+  State<TarjetaClientes> createState() =>
+      _TarjetaClientesState(cliente: cliente);
 }
 
 class _TarjetaClientesState extends State<TarjetaClientes> {
+  final ClienteModel cliente;
+  _TarjetaClientesState({required this.cliente});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,9 +36,9 @@ class _TarjetaClientesState extends State<TarjetaClientes> {
           Container(
             padding: const EdgeInsets.only(right: 10),
             child: Column(
-              children: const [
-                Expanded(child: Text('1'), flex: 1),
-                Expanded(
+              children: [
+                Expanded(child: Text('${cliente.id}'), flex: 1),
+                const Expanded(
                     child: Icon(
                       Icons.account_circle_outlined,
                       color: Colors.indigo,
@@ -47,31 +51,32 @@ class _TarjetaClientesState extends State<TarjetaClientes> {
               child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
+            children: [
               Text(
-                'Juan Alejandro perez lopez',
+                '${cliente.nombre} ${cliente.apellido}',
                 textAlign: TextAlign.left,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 overflow: TextOverflow.ellipsis,
               ),
               Text(
-                '938-453-4345',
+                cliente.numero,
                 textAlign: TextAlign.left,
-                style: TextStyle(
+                style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                     color: Colors.indigo),
                 overflow: TextOverflow.ellipsis,
               ),
               Text(
-                'correo-cliente@gmail.com',
+                cliente.mail,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.justify,
               ),
               Text(
-                'Rfc:  MELM8305281H0',
+                cliente.rfc,
                 textAlign: TextAlign.left,
-                style: TextStyle(
+                style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                     color: Colors.indigo),

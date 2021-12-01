@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:services_manager_app/models/cliente_model.dart';
+import 'package:services_manager_app/providers/clientes_provider.dart';
 import 'package:services_manager_app/widgets/widgets.dart';
 
 class ClientesScreen extends StatelessWidget {
   const ClientesScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    final clientesProvider = Provider.of<ClientesProvider>(context);
+    clientesProvider.cargarClientes();
+    final List<ClienteModel> clientes = clientesProvider.clientes;
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -20,7 +25,7 @@ class ClientesScreen extends StatelessWidget {
       body: Column(
         children: [
           _botonAddCliente(size.height * 0.10, context, 'AgregarCliente'),
-          _lisviewClientes(),
+          _lisviewClientes(clientes),
         ],
       ),
     );
@@ -70,14 +75,16 @@ Widget _botonAddCliente(alto, context, ruta) {
   );
 }
 
-Widget _lisviewClientes() {
+Widget _lisviewClientes(List<ClienteModel> clientes) {
   return Expanded(
     child: SizedBox(
       width: double.infinity,
       child: ListView.builder(
-        itemCount: 10,
-        itemBuilder: (BuildContext context, int index) {
-          return const TarjetaClientes();
+        itemCount: clientes.length,
+        itemBuilder: (_, int index) {
+          return TarjetaClientes(
+            cliente: clientes[index],
+          );
         },
       ),
     ),

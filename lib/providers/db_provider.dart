@@ -140,4 +140,13 @@ class DBProvider {
     final res = await db?.insert('CLIENTES', nuevoCliente.toJson());
     return res;
   }
+
+  Future<List<ClienteModel>> getTodosLosClientes() async {
+    final db = await database;
+    final res = await db!.query('CLIENTES');
+
+    return res.isNotEmpty
+        ? res.map((s) => ClienteModel.fromJson(s)).toList()
+        : [];
+  }
 }

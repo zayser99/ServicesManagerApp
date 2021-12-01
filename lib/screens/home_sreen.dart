@@ -12,16 +12,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    // TODO: TEMPORAL  leer la base de datos
-    final cliente = ClienteModel(
-        id: 30,
-        nombre: 'jose',
-        apellido: 'lopez',
-        numero: '9382559558',
-        mail: 'zai@hotmail.com',
-        rfc: '123123123');
+    // final cliente = ClienteModel(
+    //     id: 32,
+    //     nombre: 'Maria Angela',
+    //     apellido: 'SOlano Solano',
+    //     numero: '9382002024',
+    //     mail: 'solanomaria@gmail.com',
+    //     rfc: '12w341543423');
 
-    DBProvider.db.nuevoCliente(cliente);
+    // DBProvider.db.nuevoCliente(cliente);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Inicio'),
