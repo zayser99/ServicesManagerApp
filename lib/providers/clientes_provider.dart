@@ -28,19 +28,6 @@ class ClientesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  cargarScanPorTipo(String tipo) async {
-    // final scans = await DBProvider.db.getScansPorTipo(tipo);
-    clientes = [...clientes];
-
-    notifyListeners();
-  }
-
-  borrarTodos() async {
-    // await DBProvider.db.deleteAllScans();
-    clientes = [];
-    notifyListeners();
-  }
-
   borrarClientePorId(int id) async {
     await DBProvider.db.deleteCliente(id);
     clientes = [];
@@ -52,4 +39,16 @@ class ClientesProvider extends ChangeNotifier {
     await DBProvider.db.updateCliente(cliente);
     notifyListeners();
   }
+  // cargarScanPorTipo(String tipo) async {
+  //   // final scans = await DBProvider.db.getScansPorTipo(tipo);
+  //   clientes = [...clientes];
+
+  //   notifyListeners();
+  // }
+
+  // borrarTodos() async {
+  //   // await DBProvider.db.deleteAllScans();
+  //   clientes = [];
+  //   notifyListeners();
+  // }
 }

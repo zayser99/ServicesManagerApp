@@ -119,28 +119,6 @@ class DBProvider {
     });
   }
 
-  nuevoClienteRow(ClienteModel nuevoCliente) async {
-    final id = nuevoCliente.id;
-    final nombre = nuevoCliente.nombre;
-    final apellido = nuevoCliente.apellido;
-    final numero = nuevoCliente.numero;
-    final mail = nuevoCliente.mail;
-    final rfc = nuevoCliente.rfc;
-
-    final db = await database;
-    final res = await db?.rawInsert('''
-     INSERT INTO Clientes(id_cli, nom_cli, ape_cli, num_cli, mail_cli, rfc_cli)
-     VALUES ($id, '$nombre', '$apellido', '$numero' , '$mail' , '$rfc')
-    ''');
-    return res;
-  }
-
-  Future<int?> nuevoCliente(ClienteModel nuevoCliente) async {
-    final db = await database;
-    final res = await db?.insert('CLIENTES', nuevoCliente.toJsonToInsert());
-    return res;
-  }
-
   Future<List<ClienteModel>> getTodosLosClientes() async {
     final db = await database;
     final res = await db!.query('CLIENTES');
@@ -150,21 +128,12 @@ class DBProvider {
         : [];
   }
 
-  Future<ClienteModel?> getClienteById(int id) async {
+// DB CLIENTES
+  Future<int?> nuevoCliente(ClienteModel nuevoCliente) async {
     final db = await database;
-    final res =
-        await db!.query('CLIENTES', where: 'id_cli = ?', whereArgs: [id]);
-    return res.isNotEmpty ? ClienteModel.fromJson(res.first) : null;
+    final res = await db?.insert('CLIENTES', nuevoCliente.toJsonToInsert());
+    return res;
   }
-
-  // Future<List<ScanModel>> getScansPorTipo(String tipo) async {
-  //   final db = await database;
-  //   final res = await db.rawQuery('''
-  //     SELECT * FROM Scans WHERE tipo = '$tipo'
-  //   ''');
-
-  //   return res.isNotEmpty ? res.map((s) => ScanModel.fromJson(s)).toList() : [];
-  // }
 
   Future<int> updateCliente(ClienteModel nuevoCliente) async {
     final db = await database;
@@ -179,6 +148,38 @@ class DBProvider {
         await db!.delete('CLIENTES', where: 'id_cli = ?', whereArgs: [id]);
     return res;
   }
+
+  // nuevoClienteRow(ClienteModel nuevoCliente) async {
+  //   final id = nuevoCliente.id;
+  //   final nombre = nuevoCliente.nombre;
+  //   final apellido = nuevoCliente.apellido;
+  //   final numero = nuevoCliente.numero;
+  //   final mail = nuevoCliente.mail;
+  //   final rfc = nuevoCliente.rfc;
+
+  //   final db = await database;
+  //   final res = await db?.rawInsert('''
+  //    INSERT INTO Clientes(id_cli, nom_cli, ape_cli, num_cli, mail_cli, rfc_cli)
+  //    VALUES ($id, '$nombre', '$apellido', '$numero' , '$mail' , '$rfc')
+  //   ''');
+  //   return res;
+  // }
+
+  // Future<ClienteModel?> getClienteById(int id) async {
+  //   final db = await database;
+  //   final res =
+  //       await db!.query('CLIENTES', where: 'id_cli = ?', whereArgs: [id]);
+  //   return res.isNotEmpty ? ClienteModel.fromJson(res.first) : null;
+  // }
+
+  // Future<List<ScanModel>> getScansPorTipo(String tipo) async {
+  //   final db = await database;
+  //   final res = await db.rawQuery('''
+  //     SELECT * FROM Scans WHERE tipo = '$tipo'
+  //   ''');
+
+  //   return res.isNotEmpty ? res.map((s) => ScanModel.fromJson(s)).toList() : [];
+  // }
 
   // Future<int> deleteAllScans() async {
   //   final db = await database;
