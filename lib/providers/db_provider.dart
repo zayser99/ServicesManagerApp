@@ -21,16 +21,16 @@ class DBProvider {
     // Path de donde almacenaremos la base de datos
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     final path = join(documentsDirectory.path, 'service.db');
-    print(path);
+    //  print(path);
 
     // Crear base de datos
-    return await openDatabase(path, version: 1, onOpen: (db) {},
+    return await openDatabase(path, version: 2, onOpen: (db) {},
         onCreate: (Database db, int version) async {
       await db.execute('''
           CREATE TABLE "TIPOSERVICIO" (
             "id_tserv"	INTEGER,
             "nom_tserv"	TEXT,
-            PRIMARY KEY("id_tserv")
+            PRIMARY KEY("id_tserv" AUTOINCREMENT)
           );      
         ''');
       await db.execute('''
@@ -41,7 +41,7 @@ class DBProvider {
             "desc_serv"	TEXT,
             "id_tserv"	INTEGER,
             FOREIGN KEY("id_tserv") REFERENCES "TIPOSERVICIO"("id_tserv") ON UPDATE CASCADE ON DELETE CASCADE,
-            PRIMARY KEY("id_serv")
+            PRIMARY KEY("id_serv" AUTOINCREMENT)
           );
         ''');
       await db.execute('''
@@ -52,7 +52,7 @@ class DBProvider {
             "num_cli"	TEXT,
             "mail_cli"	TEXT,
             "rfc_cli"	TEXT,
-            PRIMARY KEY("id_cli")
+            PRIMARY KEY("id_cli" AUTOINCREMENT)
           );      
         ''');
       await db.execute('''
@@ -63,7 +63,7 @@ class DBProvider {
             "com__pre"	TEXT,
             "id_cli"	INTEGER,
             FOREIGN KEY("id_cli") REFERENCES "CLIENTES"("id_cli") ON UPDATE CASCADE ON DELETE CASCADE,
-            PRIMARY KEY("id_pre")
+            PRIMARY KEY("id_pre" AUTOINCREMENT)
           );      
         ''');
       await db.execute('''
@@ -75,7 +75,7 @@ class DBProvider {
             "com_ev"	TEXT,
             "id_cli"	INTEGER,
             FOREIGN KEY("id_cli") REFERENCES "CLIENTES"("id_cli") ON UPDATE CASCADE ON DELETE CASCADE,
-            PRIMARY KEY("id_ev")
+            PRIMARY KEY("id_ev" AUTOINCREMENT)
           );      
         ''');
       await db.execute('''
@@ -87,7 +87,7 @@ class DBProvider {
             "id_serv"	INTEGER,
             FOREIGN KEY("id_pre") REFERENCES "PRESUPUESTOS"("id_pre") ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY("id_serv") REFERENCES "SERVICIOS"("id_serv") ON UPDATE CASCADE ON DELETE CASCADE,
-            PRIMARY KEY("id_preserv")
+            PRIMARY KEY("id_preserv" AUTOINCREMENT)
           );      
         ''');
       await db.execute('''
@@ -99,7 +99,7 @@ class DBProvider {
             "id_serv"	INTEGER,
             FOREIGN KEY("id_serv") REFERENCES "SERVICIOS"("id_serv") ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY("id_ev") REFERENCES "EVENTOS"("id_ev") ON UPDATE CASCADE ON DELETE CASCADE,
-            PRIMARY KEY("id_evserv")
+            PRIMARY KEY("id_evserv" AUTOINCREMENT)
           );      
         ''');
       await db.execute('''
@@ -113,7 +113,7 @@ class DBProvider {
             "id_pre"	INTEGER,
             FOREIGN KEY("id_pre") REFERENCES "PRESUPUESTOS"("id_pre") ON UPDATE CASCADE ON DELETE CASCADE,
             FOREIGN KEY("id_cli") REFERENCES "CLIENTES"("id_cli") ON UPDATE CASCADE ON DELETE CASCADE,
-            PRIMARY KEY("id_ci")
+            PRIMARY KEY("id_ci" AUTOINCREMENT)
           );      
         ''');
     });
@@ -137,7 +137,7 @@ class DBProvider {
 
   Future<int?> nuevoCliente(ClienteModel nuevoCliente) async {
     final db = await database;
-    final res = await db?.insert('CLIENTES', nuevoCliente.toJson());
+    final res = await db?.insert('CLIENTES', nuevoCliente.toJsonToInsert());
     return res;
   }
 
@@ -149,4 +149,42 @@ class DBProvider {
         ? res.map((s) => ClienteModel.fromJson(s)).toList()
         : [];
   }
+
+  Future<ClienteModel?> getClienteById(int id) async {
+    final db = await database;
+    final res =
+        await db!.query('CLIENTES', where: 'id_cli = ?', whereArgs: [id]);
+    return res.isNotEmpty ? ClienteModel.fromJson(res.first) : null;
+  }
+
+  // Future<List<ScanModel>> getScansPorTipo(String tipo) async {
+  //   final db = await database;
+  //   final res = await db.rawQuery('''
+  //     SELECT * FROM Scans WHERE tipo = '$tipo'
+  //   ''');
+
+  //   return res.isNotEmpty ? res.map((s) => ScanModel.fromJson(s)).toList() : [];
+  // }
+
+  Future<int> updateCliente(ClienteModel nuevoCliente) async {
+    final db = await database;
+    final res = await db!.update('CLIENTES', nuevoCliente.toJsonToEdit(),
+        where: 'id_cli = ?', whereArgs: [nuevoCliente.id]);
+    return res;
+  }
+
+  Future<int> deleteCliente(int id) async {
+    final db = await database;
+    final res =
+        await db!.delete('CLIENTES', where: 'id_cli = ?', whereArgs: [id]);
+    return res;
+  }
+
+  // Future<int> deleteAllScans() async {
+  //   final db = await database;
+  //   final res = await db.rawDelete('''
+  //     DELETE FROM Scans
+  //   ''');
+  //   return res;
+  // }
 }

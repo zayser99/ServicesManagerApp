@@ -17,10 +17,8 @@ class ClientesProvider extends ChangeNotifier {
     final id = await DBProvider.db.nuevoCliente(nuevoCliente);
     // Asignar el ID de la base de datos al modelo
     nuevoCliente.id = id!;
-
-    this.clientes.add(nuevoCliente);
+    clientes.add(nuevoCliente);
     notifyListeners();
-
     return nuevoCliente;
   }
 
@@ -43,7 +41,15 @@ class ClientesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  borrarScanPorId(int id) async {
-    //  await DBProvider.db.deleteScan(id);
+  borrarClientePorId(int id) async {
+    await DBProvider.db.deleteCliente(id);
+    clientes = [];
+    cargarClientes();
+    notifyListeners();
+  }
+
+  editarCliente(ClienteModel cliente) async {
+    await DBProvider.db.updateCliente(cliente);
+    notifyListeners();
   }
 }

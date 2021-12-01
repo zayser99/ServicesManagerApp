@@ -1,16 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:services_manager_app/models/cliente_model.dart';
+import 'package:services_manager_app/providers/clientes_provider.dart';
 
 class EditarCliente extends StatefulWidget {
-  const EditarCliente({Key? key}) : super(key: key);
+  final ClienteModel cliente;
+  const EditarCliente({Key? key, required this.cliente}) : super(key: key);
 
   @override
-  State<EditarCliente> createState() => _EditarClienteState();
+  State<EditarCliente> createState() => _EditarClienteState(cliente: cliente);
 }
 
 class _EditarClienteState extends State<EditarCliente> {
-  String dropdownValue = 'Pintura';
+  final ClienteModel cliente;
+  _EditarClienteState({required this.cliente});
+  String _nombre = '';
+  String _apellido = '';
+  String _celular = '';
+  String _rfc = '';
+  String _mail = '';
   @override
   Widget build(BuildContext context) {
+    _nombre = cliente.nombre;
+    _apellido = cliente.apellido;
+    _celular = cliente.numero;
+    _rfc = cliente.rfc;
+    _mail = cliente.mail;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -20,6 +34,14 @@ class _EditarClienteState extends State<EditarCliente> {
             icon: const Icon(Icons.check),
             tooltip: 'Editar Cliente',
             onPressed: () {
+              cliente.nombre = _nombre;
+              cliente.apellido = _apellido;
+              cliente.numero = _celular;
+              cliente.rfc = _rfc;
+              cliente.mail = _mail;
+              final clienteProvider = ClientesProvider();
+              clienteProvider.editarCliente(cliente);
+
               Navigator.pop(context);
             },
           ),
@@ -28,7 +50,7 @@ class _EditarClienteState extends State<EditarCliente> {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         children: [
-          _showID('1'),
+          _showID('${cliente.id}'),
           const Divider(height: 60),
           _inputNombre(),
           const Divider(height: 60),
@@ -58,29 +80,38 @@ class _EditarClienteState extends State<EditarCliente> {
   }
 
   Widget _inputNombre() {
-    return TextField(
+    return TextFormField(
+      initialValue: cliente.nombre,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
         hintText: 'Nombre',
         labelText: 'Nombre',
         icon: const Icon(Icons.account_circle),
       ),
+      onChanged: (valor) {
+        _nombre = valor;
+      },
     );
   }
 
   Widget _inputApellido() {
-    return TextField(
+    return TextFormField(
+      initialValue: cliente.apellido,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
         hintText: 'Apellido',
         labelText: 'Apellido',
         icon: const Icon(Icons.account_circle),
       ),
+      onChanged: (valor) {
+        _apellido = valor;
+      },
     );
   }
 
   Widget _inputNum() {
-    return TextField(
+    return TextFormField(
+      initialValue: cliente.numero,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
@@ -92,7 +123,8 @@ class _EditarClienteState extends State<EditarCliente> {
   }
 
   Widget _inputRFC() {
-    return TextField(
+    return TextFormField(
+      initialValue: cliente.rfc,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
         hintText: 'RFC',
@@ -103,7 +135,8 @@ class _EditarClienteState extends State<EditarCliente> {
   }
 
   Widget _inputMail() {
-    return TextField(
+    return TextFormField(
+      initialValue: cliente.mail,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
         hintText: 'Correo electronico',

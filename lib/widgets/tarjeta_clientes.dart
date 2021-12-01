@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:services_manager_app/models/cliente_model.dart';
+import 'package:services_manager_app/providers/clientes_provider.dart';
+import 'package:services_manager_app/providers/db_provider.dart';
+import 'package:services_manager_app/screens/forms/editar_cliente.dart';
 
 class TarjetaClientes extends StatefulWidget {
   final ClienteModel cliente;
@@ -86,13 +89,13 @@ class _TarjetaClientesState extends State<TarjetaClientes> {
           )),
           Container(
               padding: const EdgeInsets.only(left: 10),
-              child: _desplegableBorEdit()),
+              child: _desplegableBorEdit(context)),
         ],
       ),
     );
   }
 
-  Widget _desplegableBorEdit() {
+  Widget _desplegableBorEdit(context) {
     return PopupMenuButton<String>(
       child: const Icon(
         Icons.arrow_drop_down_circle_sharp,
@@ -134,8 +137,8 @@ class _TarjetaClientesState extends State<TarjetaClientes> {
                     'Eliminar',
                     style: TextStyle(color: Colors.red),
                   ),
-                  content: const Text(
-                    '¿Seguro que desea Eliminar a "Juan Alejandro Perez Lopez"?',
+                  content: Text(
+                    '¿Seguro que desea Eliminar a "${cliente.nombre} ${cliente.apellido}"?',
                   ),
                   actions: <Widget>[
                     TextButton(
@@ -146,7 +149,11 @@ class _TarjetaClientesState extends State<TarjetaClientes> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () => Navigator.pop(context, 'OK'),
+                      onPressed: () {
+                        final clienteProvider = ClientesProvider();
+                        clienteProvider.borrarClientePorId(cliente.id);
+                        Navigator.pop(context, 'OK');
+                      },
                       child:
                           const Text('OK', style: TextStyle(color: Colors.red)),
                     ),
@@ -154,7 +161,10 @@ class _TarjetaClientesState extends State<TarjetaClientes> {
                 );
               });
         } else {
-          Navigator.pushNamed(context, route);
+          final route = MaterialPageRoute(builder: (context) {
+            return EditarCliente(cliente: cliente);
+          });
+          Navigator.push(context, route);
         }
       },
     );

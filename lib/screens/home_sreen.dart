@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:services_manager_app/providers/db_provider.dart';
 import 'package:services_manager_app/widgets/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,11 +12,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     // final cliente = ClienteModel(
-    //     id: 32,
-    //     nombre: 'Maria Angela',
+    //     id: 0,
+    //     nombre: 'Patricia',
     //     apellido: 'SOlano Solano',
     //     numero: '9382002024',
-    //     mail: 'solanomaria@gmail.com',
+    //     mail: 'solanopaty@gmail.com',
     //     rfc: '12w341543423');
 
     // DBProvider.db.nuevoCliente(cliente);

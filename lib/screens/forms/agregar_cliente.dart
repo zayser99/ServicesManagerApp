@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:services_manager_app/providers/clientes_provider.dart';
 
 class AgregarCliente extends StatefulWidget {
   const AgregarCliente({Key? key}) : super(key: key);
@@ -8,7 +9,12 @@ class AgregarCliente extends StatefulWidget {
 }
 
 class _AgregarClienteState extends State<AgregarCliente> {
-  String dropdownValue = 'Pintura';
+  String _nombre = '';
+  String _apellido = '';
+  String _celular = '';
+  String _rfc = '';
+  String _mail = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,6 +26,15 @@ class _AgregarClienteState extends State<AgregarCliente> {
             icon: const Icon(Icons.check),
             tooltip: 'agregar Cliente',
             onPressed: () {
+              final clienteProvider = ClientesProvider();
+              clienteProvider.nuevoCliente(
+                0,
+                _nombre,
+                _apellido,
+                _celular,
+                _mail,
+                _rfc,
+              );
               Navigator.pop(context);
             },
           ),
@@ -50,6 +65,9 @@ class _AgregarClienteState extends State<AgregarCliente> {
         labelText: 'Nombre',
         icon: const Icon(Icons.account_circle),
       ),
+      onChanged: (valor) {
+        _nombre = valor;
+      },
     );
   }
 
@@ -61,6 +79,9 @@ class _AgregarClienteState extends State<AgregarCliente> {
         labelText: 'Apellido',
         icon: const Icon(Icons.account_circle),
       ),
+      onChanged: (valor) {
+        _apellido = valor;
+      },
     );
   }
 
@@ -73,6 +94,9 @@ class _AgregarClienteState extends State<AgregarCliente> {
         labelText: 'Celular',
         icon: const Icon(Icons.smartphone),
       ),
+      onChanged: (valor) {
+        _celular = valor;
+      },
     );
   }
 
@@ -84,6 +108,9 @@ class _AgregarClienteState extends State<AgregarCliente> {
         labelText: 'RFC',
         icon: const Icon(Icons.account_circle),
       ),
+      onChanged: (valor) {
+        _rfc = valor;
+      },
     );
   }
 
@@ -95,6 +122,9 @@ class _AgregarClienteState extends State<AgregarCliente> {
         labelText: 'Correo',
         icon: const Icon(Icons.mail),
       ),
+      onChanged: (valor) {
+        _mail = valor;
+      },
     );
   }
 }

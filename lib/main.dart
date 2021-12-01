@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
           'AgregarCita': (_) => const AgregarCita(),
           'EditarCita': (_) => const EditarCita(),
           'AgregarCliente': (_) => const AgregarCliente(),
-          'EditarCliente': (_) => const EditarCliente(),
+//          'EditarCliente': (_) => const EditarCliente(),
           'AgregarCotizacion': (_) => const AgregarCotizacion(),
           'EditarCotizacion': (_) => const EditarCotizacion(),
           'AgregarEvento': (_) => const AgregarEvento(),

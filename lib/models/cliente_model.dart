@@ -3,7 +3,8 @@ import 'dart:convert';
 ClienteModel clienteModelFromJson(String str) =>
     ClienteModel.fromJson(json.decode(str));
 
-String clienteModelToJson(ClienteModel data) => json.encode(data.toJson());
+String clienteModelToJson(ClienteModel data) =>
+    json.encode(data.toJsonToInsert());
 
 class ClienteModel {
   ClienteModel({
@@ -31,7 +32,16 @@ class ClienteModel {
         rfc: json["rfc_cli"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJsonToInsert() => {
+        "id_cli": null,
+        "nom_cli": nombre,
+        "ape_cli": apellido,
+        "num_cli": numero,
+        "mail_cli": mail,
+        "rfc_cli": rfc,
+      };
+
+  Map<String, dynamic> toJsonToEdit() => {
         "id_cli": id,
         "nom_cli": nombre,
         "ape_cli": apellido,
