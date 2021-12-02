@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:services_manager_app/providers/clientes_provider.dart';
+import 'package:services_manager_app/providers/servicios_provider.dart';
 import 'package:services_manager_app/screens/screens.dart';
 
 void main() {
@@ -20,7 +21,10 @@ class MyApp extends StatelessWidget {
     ]);
 
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => ClientesProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => ClientesProvider()),
+        ChangeNotifierProvider(create: (_) => ServiciosProvider()),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Service_manger_App',

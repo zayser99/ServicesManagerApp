@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:services_manager_app/providers/servicios_provider.dart';
 
-class AgregarTipoServicio extends StatelessWidget {
+class AgregarTipoServicio extends StatefulWidget {
   const AgregarTipoServicio({Key? key}) : super(key: key);
 
+  @override
+  State<AgregarTipoServicio> createState() => _AgregarTipoServicioState();
+}
+
+class _AgregarTipoServicioState extends State<AgregarTipoServicio> {
+  String _nombre = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,6 +21,8 @@ class AgregarTipoServicio extends StatelessWidget {
             icon: const Icon(Icons.check),
             tooltip: 'agregar tipo de Servicio',
             onPressed: () {
+              final serviciosProvider = ServiciosProvider();
+              serviciosProvider.nuevoTipoServicio(0, _nombre);
               Navigator.pop(context);
             },
           ),
@@ -38,6 +47,9 @@ class AgregarTipoServicio extends StatelessWidget {
         helperText: 'Lo mas descriptivo posible.',
         icon: const Icon(Icons.build_circle_outlined),
       ),
+      onChanged: (valor) {
+        _nombre = valor;
+      },
     );
   }
 }

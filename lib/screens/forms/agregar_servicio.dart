@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:services_manager_app/models/tiposserv_model.dart';
+import 'package:services_manager_app/providers/servicios_provider.dart';
 
 class AgregarServicio extends StatefulWidget {
   const AgregarServicio({Key? key}) : super(key: key);
@@ -8,9 +11,13 @@ class AgregarServicio extends StatefulWidget {
 }
 
 class _AgregarServicioState extends State<AgregarServicio> {
-  String dropdownValue = 'Pintura';
+  int dropdownValue = 1;
   @override
   Widget build(BuildContext context) {
+    final tipoServicioProvider = Provider.of<ServiciosProvider>(context);
+    tipoServicioProvider.cargarTiposServicios();
+    final List<TiposservModel> tipoServicios =
+        tipoServicioProvider.tipoServicio;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -30,7 +37,7 @@ class _AgregarServicioState extends State<AgregarServicio> {
         children: [
           _inputNombre(),
           const Divider(height: 60),
-          _inputTipo(),
+          _inputTipo(tipoServicios),
           const Divider(height: 60),
           _inputPrecio(),
           const Divider(height: 60),
@@ -75,28 +82,27 @@ class _AgregarServicioState extends State<AgregarServicio> {
     );
   }
 
-  Widget _inputTipo() {
+  Widget _inputTipo(List<TiposservModel> tipos) {
     return Row(
       children: [
         const Padding(
           padding: EdgeInsets.only(right: 15),
           child: Icon(Icons.build_circle_outlined, color: Colors.grey),
         ),
-        DropdownButton<String>(
+        DropdownButton(
           value: dropdownValue,
           icon: const Icon(Icons.arrow_downward),
           iconSize: 24,
           elevation: 16,
-          onChanged: (String? newValue) {
+          onChanged: (int? newValue) {
             setState(() {
               dropdownValue = newValue!;
             });
           },
-          items: <String>['Fontaneria', 'Electricidad', 'Decoracion', 'Pintura']
-              .map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
+          items: tipos.map((list) {
+            return DropdownMenuItem(
+              child: Text(list.nombre),
+              value: list.id,
             );
           }).toList(),
         ),

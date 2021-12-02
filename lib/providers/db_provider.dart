@@ -5,6 +5,10 @@ import 'package:sqflite/sqflite.dart';
 // mis importaciones
 import 'package:services_manager_app/models/cliente_model.dart';
 export 'package:services_manager_app/models/cliente_model.dart';
+import 'package:services_manager_app/models/tiposserv_model.dart';
+export 'package:services_manager_app/models/tiposserv_model.dart';
+import 'package:services_manager_app/models/servicios_model.dart';
+export 'package:services_manager_app/models/servicios_model.dart';
 
 class DBProvider {
   static Database? _database;
@@ -188,4 +192,49 @@ class DBProvider {
   //   ''');
   //   return res;
   // }
+//SERVICIOS Y TIPOS DE SERVICIOS
+  Future<int?> nuevoServicio(ServiciosModel nuevoServicio) async {
+    final db = await database;
+    final res = await db?.insert('SERVICIOS', nuevoServicio.toJsonToInsert());
+    return res;
+  }
+
+  Future<int?> nuevoTipoServicio(TiposservModel nuevoTipoServicio) async {
+    final db = await database;
+    final res =
+        await db?.insert('TIPOSERVICIO', nuevoTipoServicio.toJsonForInsert());
+    return res;
+  }
+
+  Future<List<ServiciosModel>> getTodosLosServicios() async {
+    final db = await database;
+    final res = await db!.query('SERVICIOS');
+
+    return res.isNotEmpty
+        ? res.map((s) => ServiciosModel.fromJson(s)).toList()
+        : [];
+  }
+
+  Future<List<TiposservModel>> getTodosLosTiposServicios() async {
+    final db = await database;
+    final res = await db!.query('TIPOSERVICIO');
+
+    return res.isNotEmpty
+        ? res.map((s) => TiposservModel.fromJson(s)).toList()
+        : [];
+  }
+
+  Future<int> updateServicio(ServiciosModel nuevoServicio) async {
+    final db = await database;
+    final res = await db!.update('SERVICIOS', nuevoServicio.toJsonToEdit(),
+        where: 'id_serv = ?', whereArgs: [nuevoServicio.id]);
+    return res;
+  }
+
+  Future<int> deleteServicio(int id) async {
+    final db = await database;
+    final res =
+        await db!.delete('SERVICIOS', where: 'id_serv = ?', whereArgs: [id]);
+    return res;
+  }
 }
