@@ -9,6 +9,7 @@ class TarjetaClientes extends StatefulWidget {
   const TarjetaClientes({Key? key, required this.cliente}) : super(key: key);
   @override
   State<TarjetaClientes> createState() =>
+      // ignore: no_logic_in_create_state
       _TarjetaClientesState(cliente: cliente);
 }
 

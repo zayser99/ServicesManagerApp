@@ -10,6 +10,7 @@ class EditarServicio extends StatefulWidget {
 
   @override
   State<EditarServicio> createState() =>
+      // ignore: no_logic_in_create_state
       _EditarServicioState(servicio: servicio);
 }
 

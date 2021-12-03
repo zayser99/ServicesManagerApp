@@ -13,6 +13,7 @@ class TarjetaServicios extends StatefulWidget {
 
   @override
   State<TarjetaServicios> createState() =>
+      // ignore: no_logic_in_create_state
       _TarjetaServiciosState(servicio: servicio);
 }
 

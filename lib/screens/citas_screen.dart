@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:services_manager_app/models/citas_model.dart';
+import 'package:services_manager_app/providers/citas_provider.dart';
 import 'package:services_manager_app/widgets/widgets.dart';
 
 class CitasScreen extends StatelessWidget {
@@ -6,6 +9,9 @@ class CitasScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final citasProvider = Provider.of<CitasProvider>(context);
+    citasProvider.cargarCitas();
+    final List<CitasModel> citas = citasProvider.citas;
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -20,7 +26,7 @@ class CitasScreen extends StatelessWidget {
       body: Column(
         children: [
           _botonAddCita(size.height * 0.10, context),
-          _lisviewCita(),
+          _lisviewCita(citas),
         ],
       ),
     );
@@ -70,14 +76,16 @@ Widget _botonAddCita(alto, context) {
   );
 }
 
-Widget _lisviewCita() {
+Widget _lisviewCita(List<CitasModel> citas) {
   return Expanded(
     child: SizedBox(
       width: double.infinity,
       child: ListView.builder(
-        itemCount: 15,
-        itemBuilder: (BuildContext context, int index) {
-          return const TarjetaCitas();
+        itemCount: citas.length,
+        itemBuilder: (_, int index) {
+          return TarjetaCitas(
+            cita: citas[index],
+          );
         },
       ),
     ),

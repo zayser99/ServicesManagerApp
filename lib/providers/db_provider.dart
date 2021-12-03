@@ -9,6 +9,8 @@ import 'package:services_manager_app/models/tiposserv_model.dart';
 export 'package:services_manager_app/models/tiposserv_model.dart';
 import 'package:services_manager_app/models/servicios_model.dart';
 export 'package:services_manager_app/models/servicios_model.dart';
+import 'package:services_manager_app/models/citas_model.dart';
+export 'package:services_manager_app/models/citas_model.dart';
 
 class DBProvider {
   static Database? _database;
@@ -243,5 +245,35 @@ class DBProvider {
     final res =
         await db!.query('TIPOSERVICIO', where: 'id_tserv = ?', whereArgs: [id]);
     return res.isNotEmpty ? TiposservModel.fromJson(res.first) : null;
+  }
+
+  // CITAS
+  Future<List<CitasModel>> getTodosLasCitas() async {
+    final db = await database;
+    final res = await db!.rawQuery(
+        'SELECT id_ci, fecha_ci, hora_ci, com_ci, status_ci, id_cli, nom_cli, ape_cli, id_pre FROM CITAS NATURAL JOIN CLIENTES ');
+
+    return res.isNotEmpty
+        ? res.map((s) => CitasModel.fromJson(s)).toList()
+        : [];
+  }
+
+  Future<int?> nuevaCita(CitasModel nuevaCita) async {
+    final db = await database;
+    final res = await db?.insert('CITAS', nuevaCita.toJsonForInsert());
+    return res;
+  }
+
+  Future<int> updateCita(CitasModel nuevaCita) async {
+    final db = await database;
+    final res = await db!.update('CITAS', nuevaCita.toJsonForEdit(),
+        where: 'id_ci = ?', whereArgs: [nuevaCita.id]);
+    return res;
+  }
+
+  Future<int> deleteCita(int id) async {
+    final db = await database;
+    final res = await db!.delete('CITAS', where: 'id_ci = ?', whereArgs: [id]);
+    return res;
   }
 }

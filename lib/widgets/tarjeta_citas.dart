@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:services_manager_app/models/citas_model.dart';
+import 'package:services_manager_app/providers/citas_provider.dart';
+import 'package:services_manager_app/screens/forms/editar_cita.dart';
 
 class TarjetaCitas extends StatefulWidget {
-  const TarjetaCitas({Key? key}) : super(key: key);
+  final CitasModel cita;
+  const TarjetaCitas({Key? key, required this.cita}) : super(key: key);
 
   @override
-  State<TarjetaCitas> createState() => _TarjetaCitasState();
+  // ignore: no_logic_in_create_state
+  State<TarjetaCitas> createState() => _TarjetaCitasState(cita: cita);
 }
 
 class _TarjetaCitasState extends State<TarjetaCitas> {
+  final CitasModel cita;
+  _TarjetaCitasState({required this.cita});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,9 +39,9 @@ class _TarjetaCitasState extends State<TarjetaCitas> {
           Container(
             padding: const EdgeInsets.only(right: 10),
             child: Column(
-              children: const [
-                Expanded(child: Text('1'), flex: 1),
-                Expanded(
+              children: [
+                Expanded(child: Text(cita.id.toString()), flex: 1),
+                const Expanded(
                     child: Icon(
                       Icons.design_services_rounded,
                       color: Colors.indigo,
@@ -50,20 +57,20 @@ class _TarjetaCitasState extends State<TarjetaCitas> {
             children: [
               Row(
                 // ignore: unnecessary_const
-                children: const [
+                children: [
                   Expanded(
                     child: Text(
-                      '5 de ocubre 2021 a las 12pm',
+                      cita.fecha + " a las " + cita.hora,
                       textAlign: TextAlign.left,
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 14),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Text(
-                    'Atrasado',
+                    cita.status,
                     textAlign: TextAlign.left,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
                         color: Colors.orange),
@@ -71,21 +78,21 @@ class _TarjetaCitasState extends State<TarjetaCitas> {
                   ),
                 ],
               ),
-              const Text(
-                'Sergio Manuel Zaldivar Yerbes',
+              Text(
+                cita.nomcliente,
                 textAlign: TextAlign.left,
-                style: TextStyle(
+                style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                     color: Colors.indigo),
                 overflow: TextOverflow.ellipsis,
               ),
-              const Text(
-                'calle 26, #40, Col. 30 de julio (esquina con 8 de marzo)',
+              Text(
+                cita.comentario,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.justify,
-                style: TextStyle(fontSize: 12),
+                style: const TextStyle(fontSize: 12),
               ),
               Row(
                 children: const [
@@ -165,8 +172,8 @@ class _TarjetaCitasState extends State<TarjetaCitas> {
                     'Eliminar',
                     style: TextStyle(color: Colors.red),
                   ),
-                  content: const Text(
-                    '¿Seguro que desea Eliminar esta cita?',
+                  content: Text(
+                    '¿Seguro que desea Eliminar esta cita con :${cita.nomcliente}?',
                   ),
                   actions: <Widget>[
                     TextButton(
@@ -177,7 +184,11 @@ class _TarjetaCitasState extends State<TarjetaCitas> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () => Navigator.pop(context, 'OK'),
+                      onPressed: () {
+                        final citaProvider = CitasProvider();
+                        citaProvider.borrarCitaPorId(cita.id);
+                        Navigator.pop(context, 'OK');
+                      },
                       child:
                           const Text('OK', style: TextStyle(color: Colors.red)),
                     ),
@@ -185,7 +196,12 @@ class _TarjetaCitasState extends State<TarjetaCitas> {
                 );
               });
         } else {
-          Navigator.pushNamed(context, route);
+          final route = MaterialPageRoute(builder: (context) {
+            return EditarCita(
+              cita: cita,
+            );
+          });
+          Navigator.push(context, route);
         }
       },
     );

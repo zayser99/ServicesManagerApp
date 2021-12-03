@@ -7,6 +7,7 @@ class EditarCliente extends StatefulWidget {
   const EditarCliente({Key? key, required this.cliente}) : super(key: key);
 
   @override
+  // ignore: no_logic_in_create_state
   State<EditarCliente> createState() => _EditarClienteState(cliente: cliente);
 }
 

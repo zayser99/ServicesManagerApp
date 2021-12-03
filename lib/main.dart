@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:services_manager_app/providers/citas_provider.dart';
 import 'package:services_manager_app/providers/clientes_provider.dart';
 import 'package:services_manager_app/providers/servicios_provider.dart';
 import 'package:services_manager_app/screens/screens.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => ClientesProvider()),
         ChangeNotifierProvider(create: (_) => ServiciosProvider()),
+        ChangeNotifierProvider(create: (_) => CitasProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -43,7 +45,7 @@ class MyApp extends StatelessWidget {
           'agregarTipoServicio': (_) => const AgregarTipoServicio(),
           // 'EditarServicio': (_) => const EditarServicio(),
           'AgregarCita': (_) => const AgregarCita(),
-          'EditarCita': (_) => const EditarCita(),
+          // 'EditarCita': (_) => const EditarCita(),
           'AgregarCliente': (_) => const AgregarCliente(),
 //          'EditarCliente': (_) => const EditarCliente(),
           'AgregarCotizacion': (_) => const AgregarCotizacion(),
