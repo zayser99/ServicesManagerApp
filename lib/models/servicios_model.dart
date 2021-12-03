@@ -26,7 +26,7 @@ class ServiciosModel {
         nombre: json["nom_serv"],
         precio: json["prec_serv"],
         descripcion: json["desc_serv"],
-        idts: json["idts"],
+        idts: json["id_tserv"],
       );
 
   Map<String, dynamic> toJsonToInsert() => {

@@ -1,15 +1,30 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:services_manager_app/models/servicios_model.dart';
+import 'package:services_manager_app/providers/db_provider.dart';
+import 'package:services_manager_app/providers/servicios_provider.dart';
+import 'package:services_manager_app/screens/forms/editar_servicio.dart';
 
 class TarjetaServicios extends StatefulWidget {
-  const TarjetaServicios({Key? key}) : super(key: key);
+  final ServiciosModel servicio;
+  const TarjetaServicios({Key? key, required this.servicio}) : super(key: key);
 
   @override
-  State<TarjetaServicios> createState() => _TarjetaServiciosState();
+  State<TarjetaServicios> createState() =>
+      _TarjetaServiciosState(servicio: servicio);
 }
 
 class _TarjetaServiciosState extends State<TarjetaServicios> {
+  final ServiciosModel servicio;
+  _TarjetaServiciosState({required this.servicio});
   @override
   Widget build(BuildContext context) {
+    final serviciosProvider = Provider.of<ServiciosProvider>(context);
+    serviciosProvider.cargarTiposServicios();
+    final nombreTipoServicio =
+        serviciosProvider.obtenerTipoServicioById(servicio.idts);
     return Container(
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(10),
@@ -32,8 +47,8 @@ class _TarjetaServiciosState extends State<TarjetaServicios> {
           Container(
             padding: const EdgeInsets.only(right: 10),
             child: Column(
-              children: const [
-                Expanded(child: Text('1'), flex: 1),
+              children: [
+                Expanded(child: Text(servicio.id.toString()), flex: 1),
                 Expanded(
                     child: Icon(
                       Icons.build_rounded,
@@ -47,16 +62,16 @@ class _TarjetaServiciosState extends State<TarjetaServicios> {
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Intalacion de Rotoplas',
+              Text(
+                servicio.nombre,
                 textAlign: TextAlign.left,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 overflow: TextOverflow.ellipsis,
               ),
               Row(
-                children: const [
+                children: [
                   Text(
-                    '\$5,000mnx',
+                    '\$ ${servicio.precio}mnx',
                     textAlign: TextAlign.left,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -69,7 +84,7 @@ class _TarjetaServiciosState extends State<TarjetaServicios> {
                   ),
                   Expanded(
                     child: Text(
-                      'fontaneria',
+                      nombreTipoServicio,
                       textAlign: TextAlign.right,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -80,9 +95,9 @@ class _TarjetaServiciosState extends State<TarjetaServicios> {
                   ),
                 ],
               ),
-              const Expanded(
+              Expanded(
                   child: Text(
-                'consta de intalar el rotopas y las tuberias necesarias para el correcto funcionamiento del mismo',
+                servicio.descripcion,
                 overflow: TextOverflow.fade,
                 textAlign: TextAlign.justify,
               )),
@@ -90,13 +105,13 @@ class _TarjetaServiciosState extends State<TarjetaServicios> {
           )),
           Container(
               padding: const EdgeInsets.only(left: 10),
-              child: _desplegableBorEdit()),
+              child: _desplegableBorEdit(context)),
         ],
       ),
     );
   }
 
-  Widget _desplegableBorEdit() {
+  Widget _desplegableBorEdit(context) {
     return PopupMenuButton<String>(
       child: const Icon(
         Icons.arrow_drop_down_circle_sharp,
@@ -138,19 +153,23 @@ class _TarjetaServiciosState extends State<TarjetaServicios> {
                     'Eliminar',
                     style: TextStyle(color: Colors.red),
                   ),
-                  content: const Text(
-                    '¿Seguro que desea Eliminar "Instalacion de rotoplas" de la lista de servicios?',
+                  content: Text(
+                    '¿Seguro que desea Eliminar "${servicio.nombre}" de la lista de servicios?',
                   ),
                   actions: <Widget>[
                     TextButton(
-                      onPressed: () => Navigator.pop(context, 'Cancel'),
+                      onPressed: () => Navigator.pop(context, 'Cancelar'),
                       child: const Text(
-                        'Cancel',
+                        'Cancelar',
                         style: TextStyle(color: Colors.indigo),
                       ),
                     ),
                     TextButton(
-                      onPressed: () => Navigator.pop(context, 'OK'),
+                      onPressed: () {
+                        final servicioProvider = ServiciosProvider();
+                        servicioProvider.borrarServicioPorId(servicio.id);
+                        Navigator.pop(context, 'OK');
+                      },
                       child:
                           const Text('OK', style: TextStyle(color: Colors.red)),
                     ),
@@ -158,7 +177,10 @@ class _TarjetaServiciosState extends State<TarjetaServicios> {
                 );
               });
         } else {
-          Navigator.pushNamed(context, route);
+          final route = MaterialPageRoute(builder: (context) {
+            return EditarServicio(servicio: servicio);
+          });
+          Navigator.push(context, route);
         }
       },
     );

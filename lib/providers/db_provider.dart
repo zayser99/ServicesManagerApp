@@ -237,4 +237,11 @@ class DBProvider {
         await db!.delete('SERVICIOS', where: 'id_serv = ?', whereArgs: [id]);
     return res;
   }
+
+  Future<TiposservModel?> getTipoServicioById(int id) async {
+    final db = await database;
+    final res =
+        await db!.query('TIPOSERVICIO', where: 'id_tserv = ?', whereArgs: [id]);
+    return res.isNotEmpty ? TiposservModel.fromJson(res.first) : null;
+  }
 }

@@ -12,12 +12,16 @@ class AgregarServicio extends StatefulWidget {
 
 class _AgregarServicioState extends State<AgregarServicio> {
   int dropdownValue = 1;
+
+  String _nombre = '';
+  double _precio = 0.0;
+  String _descripcion = '';
   @override
   Widget build(BuildContext context) {
     final tipoServicioProvider = Provider.of<ServiciosProvider>(context);
     tipoServicioProvider.cargarTiposServicios();
     final List<TiposservModel> tipoServicios =
-        tipoServicioProvider.tipoServicio;
+        tipoServicioProvider.tipoServicios;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -27,6 +31,14 @@ class _AgregarServicioState extends State<AgregarServicio> {
             icon: const Icon(Icons.check),
             tooltip: 'agregar Servicio',
             onPressed: () {
+              final serviciosProvider = ServiciosProvider();
+              serviciosProvider.nuevoServicio(
+                0,
+                _nombre,
+                _descripcion,
+                dropdownValue,
+                _precio,
+              );
               Navigator.pop(context);
             },
           ),
@@ -56,6 +68,9 @@ class _AgregarServicioState extends State<AgregarServicio> {
         helperText: 'Lo mas descriptivo posible.',
         icon: const Icon(Icons.build_circle_outlined),
       ),
+      onChanged: (valor) {
+        _nombre = valor;
+      },
     );
   }
 
@@ -68,6 +83,11 @@ class _AgregarServicioState extends State<AgregarServicio> {
         labelText: 'Precio',
         icon: const Icon(Icons.monetization_on_outlined),
       ),
+      onChanged: (valor) {
+        if (valor != '') {
+          _precio = double.parse(valor);
+        }
+      },
     );
   }
 
@@ -79,6 +99,9 @@ class _AgregarServicioState extends State<AgregarServicio> {
         labelText: 'Descripción',
         icon: const Icon(Icons.build_circle_outlined),
       ),
+      onChanged: (valor) {
+        _descripcion = valor;
+      },
     );
   }
 

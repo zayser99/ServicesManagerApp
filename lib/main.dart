@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
           //formularios
           'agregarServicio': (_) => const AgregarServicio(),
           'agregarTipoServicio': (_) => const AgregarTipoServicio(),
-          'EditarServicio': (_) => const EditarServicio(),
+          // 'EditarServicio': (_) => const EditarServicio(),
           'AgregarCita': (_) => const AgregarCita(),
           'EditarCita': (_) => const EditarCita(),
           'AgregarCliente': (_) => const AgregarCliente(),

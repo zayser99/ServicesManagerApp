@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:services_manager_app/models/servicios_model.dart';
+import 'package:services_manager_app/providers/servicios_provider.dart';
 import 'package:services_manager_app/widgets/widgets.dart';
 
 class ServiciosScreen extends StatelessWidget {
@@ -6,6 +9,9 @@ class ServiciosScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final serviciosProvider = Provider.of<ServiciosProvider>(context);
+    serviciosProvider.cargarServicios();
+    final List<ServiciosModel> servicios = serviciosProvider.servicios;
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -20,7 +26,7 @@ class ServiciosScreen extends StatelessWidget {
       body: Column(
         children: [
           _botones(size.height * 0.10, context),
-          _lisviewServicios(),
+          _lisviewServicios(servicios),
         ],
       ),
     );
@@ -82,14 +88,16 @@ Widget _botonAdd(titulo, ruta, context) {
   );
 }
 
-Widget _lisviewServicios() {
+Widget _lisviewServicios(List<ServiciosModel> servicios) {
   return Expanded(
     child: SizedBox(
       width: double.infinity,
       child: ListView.builder(
-        itemCount: 10,
-        itemBuilder: (BuildContext context, int index) {
-          return const TarjetaServicios();
+        itemCount: servicios.length,
+        itemBuilder: (_, int index) {
+          return TarjetaServicios(
+            servicio: servicios[index],
+          );
         },
       ),
     ),

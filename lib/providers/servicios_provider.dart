@@ -3,14 +3,14 @@ import 'package:services_manager_app/providers/db_provider.dart';
 
 class ServiciosProvider extends ChangeNotifier {
   List<ServiciosModel> servicios = [];
-  List<TiposservModel> tipoServicio = [];
+  List<TiposservModel> tipoServicios = [];
 
   Future<TiposservModel> nuevoTipoServicio(int idd, String nombre) async {
     final nuevoTipoServicio = TiposservModel(id: idd, nombre: nombre);
     final id = await DBProvider.db.nuevoTipoServicio(nuevoTipoServicio);
     // Asignar el ID de la base de datos al modelo
     nuevoTipoServicio.id = id!;
-    tipoServicio.add(nuevoTipoServicio);
+    tipoServicios.add(nuevoTipoServicio);
     notifyListeners();
     return nuevoTipoServicio;
   }
@@ -34,7 +34,7 @@ class ServiciosProvider extends ChangeNotifier {
 
   cargarTiposServicios() async {
     final scans = await DBProvider.db.getTodosLosTiposServicios();
-    tipoServicio = [...scans];
+    tipoServicios = [...scans];
     notifyListeners();
   }
 
@@ -55,6 +55,17 @@ class ServiciosProvider extends ChangeNotifier {
     await DBProvider.db.updateServicio(servicio);
     notifyListeners();
   }
+
+  String obtenerTipoServicioById(int id) {
+    String nombre = '';
+    for (var item in tipoServicios) {
+      if (item.id == id) {
+        nombre = item.nombre;
+      }
+    }
+    return nombre;
+  }
+
   // cargarScanPorTipo(String tipo) async {
   //   // final scans = await DBProvider.db.getScansPorTipo(tipo);
   //   clientes = [...clientes];

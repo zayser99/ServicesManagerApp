@@ -1,16 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:services_manager_app/models/servicios_model.dart';
+import 'package:services_manager_app/models/tiposserv_model.dart';
+import 'package:services_manager_app/providers/servicios_provider.dart';
 
 class EditarServicio extends StatefulWidget {
-  const EditarServicio({Key? key}) : super(key: key);
+  final ServiciosModel servicio;
+  const EditarServicio({Key? key, required this.servicio}) : super(key: key);
 
   @override
-  State<EditarServicio> createState() => _EditarServicioState();
+  State<EditarServicio> createState() =>
+      _EditarServicioState(servicio: servicio);
 }
 
 class _EditarServicioState extends State<EditarServicio> {
-  String dropdownValue = 'Pintura';
+  final ServiciosModel servicio;
+  _EditarServicioState({required this.servicio});
+  String _nombre = '';
+  double _precio = 0.0;
+  String _desc = '';
   @override
   Widget build(BuildContext context) {
+    _nombre = servicio.nombre;
+    _precio = servicio.precio;
+    _desc = servicio.descripcion;
+    final tipoServicioProvider = Provider.of<ServiciosProvider>(context);
+    tipoServicioProvider.cargarTiposServicios();
+    final List<TiposservModel> tipoServicios =
+        tipoServicioProvider.tipoServicios;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -20,6 +37,12 @@ class _EditarServicioState extends State<EditarServicio> {
             icon: const Icon(Icons.check),
             tooltip: 'agregar Servicio',
             onPressed: () {
+              servicio.nombre = _nombre;
+              servicio.precio = _precio;
+              servicio.descripcion = _desc;
+              final servicioProvider = ServiciosProvider();
+              servicioProvider.editarServicio(servicio);
+
               Navigator.pop(context);
             },
           ),
@@ -28,11 +51,11 @@ class _EditarServicioState extends State<EditarServicio> {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         children: [
-          _showID('1'),
+          _showID('${servicio.id}'),
           const Divider(height: 60),
           _inputNombre(),
           const Divider(height: 60),
-          _inputTipo(),
+          _inputTipo(tipoServicios),
           const Divider(height: 60),
           _inputPrecio(),
           const Divider(height: 60),
@@ -56,7 +79,8 @@ class _EditarServicioState extends State<EditarServicio> {
   }
 
   Widget _inputNombre() {
-    return TextField(
+    return TextFormField(
+      initialValue: servicio.nombre,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
         hintText: 'nombre del servicio',
@@ -64,11 +88,15 @@ class _EditarServicioState extends State<EditarServicio> {
         helperText: 'Lo mas descriptivo posible.',
         icon: const Icon(Icons.build_circle_outlined),
       ),
+      onChanged: (valor) {
+        _nombre = valor;
+      },
     );
   }
 
   Widget _inputPrecio() {
-    return TextField(
+    return TextFormField(
+      initialValue: servicio.precio.toString(),
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
@@ -76,42 +104,50 @@ class _EditarServicioState extends State<EditarServicio> {
         labelText: 'Precio',
         icon: const Icon(Icons.monetization_on_outlined),
       ),
+      onChanged: (valor) {
+        if (valor != '') {
+          _precio = double.parse(valor);
+        }
+      },
     );
   }
 
   Widget _inputDesc() {
-    return TextField(
+    return TextFormField(
+      initialValue: servicio.descripcion,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
         hintText: 'Descripción',
         labelText: 'Descripción',
         icon: const Icon(Icons.build_circle_outlined),
       ),
+      onChanged: (valor) {
+        _desc = valor;
+      },
     );
   }
 
-  Widget _inputTipo() {
+  Widget _inputTipo(List<TiposservModel> tipos) {
     return Row(
       children: [
         const Padding(
           padding: EdgeInsets.only(right: 15),
           child: Icon(Icons.build_circle_outlined, color: Colors.grey),
         ),
-        DropdownButton<String>(
-          value: dropdownValue,
+        DropdownButton(
+          value: servicio.idts,
           icon: const Icon(Icons.arrow_downward),
           iconSize: 24,
           elevation: 16,
-          onChanged: (String? newValue) {
+          onChanged: (int? newValue) {
             setState(() {
-              dropdownValue = newValue!;
+              servicio.idts = newValue!;
             });
           },
-          items: <String>['Fontaneria', 'Electricidad', 'Decoracion', 'Pintura']
-              .map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
+          items: tipos.map((list) {
+            return DropdownMenuItem(
+              child: Text(list.nombre),
+              value: list.id,
             );
           }).toList(),
         ),
