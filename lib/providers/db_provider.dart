@@ -276,4 +276,16 @@ class DBProvider {
     final res = await db!.delete('CITAS', where: 'id_ci = ?', whereArgs: [id]);
     return res;
   }
+
+  //EVENTOS Y Cotizaciones
+
+  Future<List<ServiciosModel>> getSerchServicios(String buscando) async {
+    final db = await database;
+    final res = await db!
+        .rawQuery('SELECT * FROM SERVICIOS WHERE	nom_serv LIKE "%$buscando%"');
+
+    return res.isNotEmpty
+        ? res.map((s) => ServiciosModel.fromJson(s)).toList()
+        : [];
+  }
 }

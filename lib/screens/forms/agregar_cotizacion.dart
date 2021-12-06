@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:services_manager_app/search/search_delegate_for_coti.dart';
 import 'package:services_manager_app/widgets/widgets.dart';
 
 class AgregarCotizacion extends StatefulWidget {
@@ -39,10 +40,15 @@ class _AgregarCotizacionState extends State<AgregarCotizacion> {
             _showTotal('0'),
             const Divider(height: 20),
             _lisviewServicios(),
-            const Divider(height: 10),
-            _inputBuscarServicio()
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.indigo,
+        onPressed: () {
+          showSearch(context: context, delegate: CotizacionSearchDelegate());
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
@@ -81,17 +87,6 @@ class _AgregarCotizacionState extends State<AgregarCotizacion> {
         hintText: 'Comentario de la cotizacion',
         labelText: 'Comentario',
         icon: const Icon(Icons.list),
-      ),
-    );
-  }
-
-  Widget _inputBuscarServicio() {
-    return TextField(
-      decoration: InputDecoration(
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-        hintText: 'Buscar Servicio',
-        labelText: 'Agregar Servicio',
-        icon: const Icon(Icons.search, color: Colors.indigo),
       ),
     );
   }

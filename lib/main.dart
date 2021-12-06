@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:services_manager_app/providers/citas_provider.dart';
 import 'package:services_manager_app/providers/clientes_provider.dart';
+import 'package:services_manager_app/providers/cotizacion_provider.dart';
 import 'package:services_manager_app/providers/servicios_provider.dart';
 import 'package:services_manager_app/screens/screens.dart';
 
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ClientesProvider()),
         ChangeNotifierProvider(create: (_) => ServiciosProvider()),
         ChangeNotifierProvider(create: (_) => CitasProvider()),
+        ChangeNotifierProvider(create: (_) => CotizacionProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
