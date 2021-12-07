@@ -12,6 +12,7 @@ class CitasScreen extends StatelessWidget {
     final citasProvider = Provider.of<CitasProvider>(context);
     citasProvider.cargarCitas();
     final List<CitasModel> citas = citasProvider.citas;
+
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(

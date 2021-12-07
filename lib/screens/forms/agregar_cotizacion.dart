@@ -1,18 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:services_manager_app/models/cliente_model.dart';
+import 'package:services_manager_app/models/presupuesto_model.dart';
+import 'package:services_manager_app/models/presupuestoservicio_model.dart';
+import 'package:services_manager_app/providers/clientes_provider.dart';
+import 'package:services_manager_app/providers/cotizacion_provider.dart';
+
 import 'package:services_manager_app/search/search_delegate_for_coti.dart';
-import 'package:services_manager_app/widgets/widgets.dart';
+import 'package:services_manager_app/widgets/tarjeta_servicios_mini.dart';
 
 class AgregarCotizacion extends StatefulWidget {
-  const AgregarCotizacion({Key? key}) : super(key: key);
+  final int idPre;
+  const AgregarCotizacion({Key? key, required this.idPre}) : super(key: key);
 
   @override
-  State<AgregarCotizacion> createState() => _AgregarCotizacionState();
+  State<AgregarCotizacion> createState() =>
+      // ignore: no_logic_in_create_state
+      _AgregarCotizacionState(idPre: idPre);
 }
 
 class _AgregarCotizacionState extends State<AgregarCotizacion> {
-  String dropdownValue = 'Sergio';
+  int dropdownValue = 1;
+  String _comentario = '';
+  int idPre;
+  _AgregarCotizacionState({required this.idPre});
   @override
   Widget build(BuildContext context) {
+    final clientesProvider = Provider.of<ClientesProvider>(context);
+    clientesProvider.cargarClientes();
+    final List<ClienteModel> clientes = clientesProvider.clientes;
+
+    final presupuestosProvider = Provider.of<CotizacionProvider>(context);
+    presupuestosProvider.cargarServiciosDelPre(idPre);
+    final List<PresupuestoserviciosModel> servDelPre =
+        presupuestosProvider.serviciosDelPresupuesto;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -22,6 +44,18 @@ class _AgregarCotizacionState extends State<AgregarCotizacion> {
             icon: const Icon(Icons.check),
             tooltip: 'agregar Cotizacion',
             onPressed: () {
+              presupuestosProvider.cargarTotalDelPresupuesto(idPre);
+              String fecha = DateTime.now().toString();
+              fecha = fecha.replaceRange(10, 26, '');
+              final presupuesto = PresupuestoModel(
+                comentario: _comentario,
+                fecha: fecha,
+                id: idPre,
+                idcliente: dropdownValue,
+                nomcliente: '',
+                total: presupuestosProvider.totalDelPre,
+              );
+              presupuestosProvider.editarPresupuesto(presupuesto);
               Navigator.pop(context);
             },
           ),
@@ -31,22 +65,27 @@ class _AgregarCotizacionState extends State<AgregarCotizacion> {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         child: Column(
           children: [
-            _showID('1'),
+            _showID(idPre.toString()),
             const Divider(height: 10),
-            _inputTipo(),
+            _inputTipo(clientes),
             const Divider(height: 10),
             _inputCom(),
             const Divider(height: 10),
-            _showTotal('0'),
+            _showTotal(presupuestosProvider.totalDelPre.toString()),
             const Divider(height: 20),
-            _lisviewServicios(),
+            _lisviewServicios(servDelPre),
+            const Divider(height: 10),
           ],
         ),
       ),
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterDocked,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.indigo,
         onPressed: () {
-          showSearch(context: context, delegate: CotizacionSearchDelegate());
+          showSearch(
+              context: context,
+              delegate: CotizacionSearchDelegate(idPre: idPre));
         },
         child: const Icon(Icons.add),
       ),
@@ -88,37 +127,33 @@ class _AgregarCotizacionState extends State<AgregarCotizacion> {
         labelText: 'Comentario',
         icon: const Icon(Icons.list),
       ),
+      onChanged: (valor) {
+        _comentario = valor;
+      },
     );
   }
 
-  Widget _inputTipo() {
+  Widget _inputTipo(List<ClienteModel> clientes) {
     return Row(
       children: [
         const Padding(
           padding: EdgeInsets.only(right: 15),
-          child: Icon(Icons.account_circle_outlined, color: Colors.grey),
+          child: Icon(Icons.build_circle_outlined, color: Colors.grey),
         ),
-        DropdownButton<String>(
+        DropdownButton(
           value: dropdownValue,
           icon: const Icon(Icons.arrow_downward),
           iconSize: 24,
           elevation: 16,
-          onChanged: (String? newValue) {
+          onChanged: (int? newValue) {
             setState(() {
               dropdownValue = newValue!;
             });
           },
-          items: <String>[
-            'Sergio',
-            'Manuel ',
-            'Pablo',
-            'Alejandro',
-            'Alejandra',
-            'Pao'
-          ].map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
+          items: clientes.map((list) {
+            return DropdownMenuItem(
+              child: Text(list.nombre + " " + list.apellido),
+              value: list.id,
             );
           }).toList(),
         ),
@@ -126,14 +161,16 @@ class _AgregarCotizacionState extends State<AgregarCotizacion> {
     );
   }
 
-  Widget _lisviewServicios() {
+  Widget _lisviewServicios(
+      List<PresupuestoserviciosModel> serviciosDelPresupuesto) {
     return Expanded(
       child: SizedBox(
         width: double.infinity,
         child: ListView.builder(
-          itemCount: 0,
+          itemCount: serviciosDelPresupuesto.length,
           itemBuilder: (BuildContext context, int index) {
-            return const TarjetaServiciosMini();
+            return TarjetaServiciosMini(
+                servicioDelpre: serviciosDelPresupuesto[index]);
           },
         ),
       ),

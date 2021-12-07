@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:services_manager_app/widgets/widgets.dart';
 
 class EditarCotizacion extends StatefulWidget {
   const EditarCotizacion({Key? key}) : super(key: key);
@@ -138,7 +137,8 @@ class _EditarCotizacionState extends State<EditarCotizacion> {
         child: ListView.builder(
           itemCount: 5,
           itemBuilder: (BuildContext context, int index) {
-            return const TarjetaServiciosMini();
+            return Container();
+            // return const TarjetaServiciosMini();
           },
         ),
       ),

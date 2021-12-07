@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:services_manager_app/widgets/widgets.dart';
 
 class EditarEvento extends StatefulWidget {
   const EditarEvento({Key? key}) : super(key: key);
@@ -138,7 +137,8 @@ class _EditarEventoState extends State<EditarEvento> {
         child: ListView.builder(
           itemCount: 5,
           itemBuilder: (BuildContext context, int index) {
-            return const TarjetaServiciosMini();
+            return Container();
+            // return const TarjetaServiciosMini();
           },
         ),
       ),

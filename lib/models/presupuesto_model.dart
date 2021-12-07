@@ -1,41 +1,51 @@
 import 'dart:convert';
 
-PresupuestoModel presupuestoModelFromJson(String str) => PresupuestoModel.fromJson(json.decode(str));
+PresupuestoModel presupuestoModelFromJson(String str) =>
+    PresupuestoModel.fromJson(json.decode(str));
 
-String presupuestoModelToJson(PresupuestoModel data) => json.encode(data.toJson());
+String presupuestoModelToJson(PresupuestoModel data) =>
+    json.encode(data.toJson());
 
 class PresupuestoModel {
-    PresupuestoModel({
-        required this.idpre,
-        required this.fecha,
-        required this.total,
-        required this.comentario,
-        required this.idcliente,
-        required this.nomcliente,
-    });
+  PresupuestoModel({
+    required this.id,
+    required this.fecha,
+    required this.total,
+    required this.comentario,
+    required this.idcliente,
+    required this.nomcliente,
+  });
 
-    int idpre;
-    String fecha;
-    String total;
-    String comentario;
-    int idcliente;
-    String nomcliente;
+  int id;
+  String fecha;
+  double total;
+  String comentario;
+  int idcliente;
+  String nomcliente;
 
-    factory PresupuestoModel.fromJson(Map<String, dynamic> json) => PresupuestoModel(
-        idpre: json["id_pre"],
+  factory PresupuestoModel.fromJson(Map<String, dynamic> json) =>
+      PresupuestoModel(
+        id: json["id_pre"],
         fecha: json["fecha_pre"],
         total: json["total_pre"],
-        comentario: json["com_pre"],
+        comentario: json["com__pre"],
         idcliente: json["id_cli"],
-        nomcliente: json["nom_cli"],
-    );
+        nomcliente: json["nom_cli"] + " " + json["ape_cli"],
+      );
 
-    Map<String, dynamic> toJson() => {
-        "id_pre": idpre,
+  Map<String, dynamic> toJsonforInsert() => {
+        "id_pre": null,
         "fecha_pre": fecha,
         "total_pre": total,
-        "com_pre": comentario,
+        "com__pre": comentario,
         "id_cli": idcliente,
-        "nom_cli": nomcliente,
-    };
+      };
+
+  Map<String, dynamic> toJson() => {
+        "id_pre": id,
+        "fecha_pre": fecha,
+        "total_pre": total,
+        "com__pre": comentario,
+        "id_cli": idcliente,
+      };
 }

@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:services_manager_app/models/presupuesto_model.dart';
+import 'package:services_manager_app/providers/cotizacion_provider.dart';
 
 class TarjetaCotizacion extends StatefulWidget {
-  const TarjetaCotizacion({Key? key}) : super(key: key);
+  final PresupuestoModel presupuesto;
+  const TarjetaCotizacion({Key? key, required this.presupuesto})
+      : super(key: key);
 
   @override
-  State<TarjetaCotizacion> createState() => _TarjetaCotizacionState();
+  State<TarjetaCotizacion> createState() =>
+      // ignore: no_logic_in_create_state
+      _TarjetaCotizacionState(presupuesto: presupuesto);
 }
 
 class _TarjetaCotizacionState extends State<TarjetaCotizacion> {
+  final PresupuestoModel presupuesto;
+  _TarjetaCotizacionState({required this.presupuesto});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,9 +40,9 @@ class _TarjetaCotizacionState extends State<TarjetaCotizacion> {
           Container(
             padding: const EdgeInsets.only(right: 10),
             child: Column(
-              children: const [
-                Expanded(child: Text('1'), flex: 1),
-                Expanded(
+              children: [
+                Expanded(child: Text(presupuesto.id.toString()), flex: 1),
+                const Expanded(
                     child: Icon(
                       Icons.design_services_rounded,
                       color: Colors.indigo,
@@ -50,45 +58,45 @@ class _TarjetaCotizacionState extends State<TarjetaCotizacion> {
             children: [
               Row(
                 // ignore: unnecessary_const
-                children: const [
+                children: [
                   Expanded(
                     child: Text(
-                      '\$500mnx',
+                      '\$${presupuesto.total}mnx',
                       textAlign: TextAlign.left,
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  Text(
-                    'cotización',
+                  const Text(
+                    'cotización...',
                     textAlign: TextAlign.left,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
-                        color: Colors.indigo),
+                        color: Colors.cyan),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
-              const Text(
-                'Alejandra Heredia',
+              Text(
+                presupuesto.nomcliente,
                 textAlign: TextAlign.left,
-                style: TextStyle(
+                style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                     color: Colors.indigo),
                 overflow: TextOverflow.ellipsis,
               ),
-              const Text(
-                '30 de ocubre 2021 a las 12pm',
+              Text(
+                presupuesto.comentario,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.justify,
               ),
-              const Text(
-                'Detalles...',
+              Text(
+                presupuesto.fecha,
                 textAlign: TextAlign.left,
-                style: TextStyle(
+                style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                     color: Colors.indigo),
@@ -123,18 +131,6 @@ class _TarjetaCotizacionState extends State<TarjetaCotizacion> {
           ),
           value: 'eliminar',
         ),
-        PopupMenuItem(
-          child: Row(
-            children: const [
-              Expanded(child: Text("Editar")),
-              Icon(
-                Icons.edit,
-                color: Colors.indigo,
-              ),
-            ],
-          ),
-          value: 'EditarCotizacion',
-        )
       ],
       onSelected: (route) {
         if (route == 'eliminar') {
@@ -158,15 +154,18 @@ class _TarjetaCotizacionState extends State<TarjetaCotizacion> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () => Navigator.pop(context, 'OK'),
+                      onPressed: () {
+                        final cotizacionProvider = CotizacionProvider();
+                        cotizacionProvider
+                            .borrarPresupuestoPorId(presupuesto.id);
+                        Navigator.pop(context, 'OK');
+                      },
                       child:
                           const Text('OK', style: TextStyle(color: Colors.red)),
                     ),
                   ],
                 );
               });
-        } else {
-          Navigator.pushNamed(context, route);
         }
       },
     );

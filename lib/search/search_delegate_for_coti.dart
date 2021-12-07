@@ -4,6 +4,8 @@ import 'package:services_manager_app/models/servicios_model.dart';
 import 'package:services_manager_app/providers/cotizacion_provider.dart';
 
 class CotizacionSearchDelegate extends SearchDelegate {
+  int idPre;
+  CotizacionSearchDelegate({required this.idPre});
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
@@ -44,7 +46,7 @@ class CotizacionSearchDelegate extends SearchDelegate {
         return ListView.builder(
           itemCount: servicios!.length,
           itemBuilder: (_, int index) {
-            return _ServicioItem(servicio: servicios[index], idCita: 1);
+            return _ServicioItem(servicio: servicios[index], idPre: idPre);
           },
         );
       },
@@ -78,8 +80,11 @@ class CotizacionSearchDelegate extends SearchDelegate {
 
         return ListView.builder(
           itemCount: servicios!.length,
-          itemBuilder: (_, int index) {
-            return _ServicioItem(servicio: servicios[index], idCita: 1);
+          itemBuilder: (
+            _,
+            int index,
+          ) {
+            return _ServicioItem(servicio: servicios[index], idPre: idPre);
           },
         );
       },
@@ -89,11 +94,12 @@ class CotizacionSearchDelegate extends SearchDelegate {
 
 class _ServicioItem extends StatelessWidget {
   final ServiciosModel servicio;
-  final int idCita;
-  const _ServicioItem({required this.servicio, required this.idCita});
+  final int idPre;
+  const _ServicioItem({required this.servicio, required this.idPre});
 
   @override
   Widget build(BuildContext context) {
+    final cotizacionProvider = Provider.of<CotizacionProvider>(context);
     return Container(
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(10),
@@ -156,6 +162,8 @@ class _ServicioItem extends StatelessWidget {
                   color: Colors.greenAccent,
                 ),
                 onPressed: () {
+                  cotizacionProvider.nuevoServicioDelPre(idPre, servicio.id);
+                  cotizacionProvider.cargarTotalDelPresupuesto(idPre);
                   showDialog(
                     context: context,
                     builder: (contex) {

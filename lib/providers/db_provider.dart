@@ -11,6 +11,10 @@ import 'package:services_manager_app/models/servicios_model.dart';
 export 'package:services_manager_app/models/servicios_model.dart';
 import 'package:services_manager_app/models/citas_model.dart';
 export 'package:services_manager_app/models/citas_model.dart';
+import 'package:services_manager_app/models/presupuesto_model.dart';
+import 'package:services_manager_app/models/presupuestoservicio_model.dart';
+export 'package:services_manager_app/models/presupuesto_model.dart';
+export 'package:services_manager_app/models/presupuestoservicio_model.dart';
 
 class DBProvider {
   static Database? _database;
@@ -189,11 +193,12 @@ class DBProvider {
 
   // Future<int> deleteAllScans() async {
   //   final db = await database;
-  //   final res = await db.rawDelete('''
-  //     DELETE FROM Scans
+  //   final res = await db!.rawDelete('''
+  //     DELETE FROM PRESUPUESTOS where id_cli=1;
   //   ''');
   //   return res;
   // }
+
 //SERVICIOS Y TIPOS DE SERVICIOS
   Future<int?> nuevoServicio(ServiciosModel nuevoServicio) async {
     final db = await database;
@@ -287,5 +292,79 @@ class DBProvider {
     return res.isNotEmpty
         ? res.map((s) => ServiciosModel.fromJson(s)).toList()
         : [];
+  }
+
+  Future<List<PresupuestoserviciosModel>> getServiciosDelPres(int id) async {
+    final db = await database;
+    final res = await db!.rawQuery(
+        'SELECT id_pre, id_serv, id_preserv, cant_preserv, nom_serv, prec_serv FROM PRESUPUESTO_SERVICIO NATURAL JOIN SERVICIOS WHERE id_pre= $id;');
+
+    return res.isNotEmpty
+        ? res.map((s) => PresupuestoserviciosModel.fromJson(s)).toList()
+        : [];
+  }
+
+  Future<List<PresupuestoModel>> getTodosLossPresupuestos() async {
+    final db = await database;
+    final res = await db!.rawQuery(
+        'SELECT id_pre, fecha_pre, total_pre, com__pre, id_cli, nom_cli, ape_cli from PRESUPUESTOS NATURAL JOIN CLIENTES');
+
+    return res.isNotEmpty
+        ? res.map((s) => PresupuestoModel.fromJson(s)).toList()
+        : [];
+  }
+
+  Future<int?> nuevoPresupuesto(PresupuestoModel nuevoPresupuesto) async {
+    final db = await database;
+    final res =
+        await db?.insert('PRESUPUESTOS', nuevoPresupuesto.toJsonforInsert());
+    return res;
+  }
+
+  Future<int> updatePresupuesto(PresupuestoModel nuevoPresupuesto) async {
+    final db = await database;
+    final res = await db!.update('PRESUPUESTOS', nuevoPresupuesto.toJson(),
+        where: 'id_pre = ?', whereArgs: [nuevoPresupuesto.id]);
+    return res;
+  }
+
+  Future<int> deletePresupuesto(int id) async {
+    final db = await database;
+    final res =
+        await db!.delete('PRESUPUESTOS', where: 'id_pre = ?', whereArgs: [id]);
+    return res;
+  }
+
+  Future<int?> nuevoServiciodelPre(
+      PresupuestoserviciosModel nuevoPresupuesto) async {
+    final db = await database;
+    final res = await db?.insert(
+        'PRESUPUESTO_SERVICIO', nuevoPresupuesto.toJsonForInsert());
+    return res;
+  }
+
+  Future<double?> sumaTotalPresupuesto(id) async {
+    final db = await database;
+    final res = await db?.rawQuery(
+        'SELECT  sum(prec_serv *cant_preserv) as total FROM PRESUPUESTO_SERVICIO NATURAL JOIN SERVICIOS WHERE id_pre= $id;');
+    var variable = res.toString();
+    variable = variable
+        .replaceAll("{", "")
+        .replaceAll("}", "")
+        .replaceAll("[", "")
+        .replaceAll("]", "")
+        .replaceAll(": ", "")
+        .replaceAll("total", "");
+    print(variable);
+    if (variable == 'null') return 0;
+
+    return double.parse(variable);
+  }
+
+  Future<int> deleteServicioDelPre(int id) async {
+    final db = await database;
+    final res = await db!.delete('PRESUPUESTO_SERVICIO',
+        where: 'id_preserv = ?', whereArgs: [id]);
+    return res;
   }
 }

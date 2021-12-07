@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:services_manager_app/models/presupuestoservicio_model.dart';
+import 'package:services_manager_app/providers/cotizacion_provider.dart';
 
 class TarjetaServiciosMini extends StatefulWidget {
-  const TarjetaServiciosMini({Key? key}) : super(key: key);
+  final PresupuestoserviciosModel servicioDelpre;
+  const TarjetaServiciosMini({Key? key, required this.servicioDelpre})
+      : super(key: key);
 
   @override
-  State<TarjetaServiciosMini> createState() => _TarjetaServiciosMiniState();
+  State<TarjetaServiciosMini> createState() =>
+      // ignore: no_logic_in_create_state
+      _TarjetaServiciosMiniState(servicioDelpre: servicioDelpre);
 }
 
 class _TarjetaServiciosMiniState extends State<TarjetaServiciosMini> {
+  final PresupuestoserviciosModel servicioDelpre;
+  _TarjetaServiciosMiniState({required this.servicioDelpre});
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(10),
       width: double.infinity,
-      height: 80,
+      height: 85,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15.0),
@@ -32,9 +40,10 @@ class _TarjetaServiciosMiniState extends State<TarjetaServiciosMini> {
           Container(
             padding: const EdgeInsets.only(right: 10),
             child: Column(
-              children: const [
-                Expanded(child: Text('1'), flex: 1),
+              children: [
                 Expanded(
+                    child: Text(servicioDelpre.idserv.toString()), flex: 1),
+                const Expanded(
                     child: Icon(
                       Icons.build_rounded,
                       color: Colors.indigo,
@@ -47,40 +56,41 @@ class _TarjetaServiciosMiniState extends State<TarjetaServiciosMini> {
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Intalacion de Rotoplas',
+              Text(
+                servicioDelpre.nomserv,
                 textAlign: TextAlign.left,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 overflow: TextOverflow.ellipsis,
               ),
-              const Text(
-                'P/U: \$5,000mnx',
+              Text(
+                'P/U: \$ ${servicioDelpre.precioU} mnx',
                 textAlign: TextAlign.left,
-                style: TextStyle(
+                style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                     color: Colors.black45),
                 overflow: TextOverflow.ellipsis,
               ),
               Row(
-                children: const [
+                children: [
                   Text(
-                    'Subtotal: \$10,000mnx',
+                    'Subtotal: \$${servicioDelpre.precioU * servicioDelpre.cantidad}mnx',
                     textAlign: TextAlign.left,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                         color: Colors.indigo),
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 2,
                   ),
                   Expanded(
                     child: Text(
-                      'Cantidad: 2',
+                      'Cantidad: ${servicioDelpre.cantidad}',
                       textAlign: TextAlign.right,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                       ),
                       overflow: TextOverflow.ellipsis,
@@ -109,8 +119,8 @@ class _TarjetaServiciosMiniState extends State<TarjetaServiciosMini> {
                   'Eliminar',
                   style: TextStyle(color: Colors.red),
                 ),
-                content: const Text(
-                  '¿Seguro que desea Eliminar "Instalacion de rotoplas" de tu lista?',
+                content: Text(
+                  '¿Seguro que desea Eliminar "${servicioDelpre.nomserv}" de tu lista?',
                 ),
                 actions: <Widget>[
                   TextButton(
@@ -121,7 +131,12 @@ class _TarjetaServiciosMiniState extends State<TarjetaServiciosMini> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () => Navigator.pop(context, 'OK'),
+                    onPressed: () {
+                      final cotizacionProvider = CotizacionProvider();
+                      cotizacionProvider
+                          .borrarServicioDelPrePorId(servicioDelpre.id);
+                      Navigator.pop(context, 'OK');
+                    },
                     child:
                         const Text('OK', style: TextStyle(color: Colors.red)),
                   ),
