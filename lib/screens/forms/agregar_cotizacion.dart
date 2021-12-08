@@ -29,7 +29,6 @@ class _AgregarCotizacionState extends State<AgregarCotizacion> {
     final clientesProvider = Provider.of<ClientesProvider>(context);
     clientesProvider.cargarClientes();
     final List<ClienteModel> clientes = clientesProvider.clientes;
-
     final presupuestosProvider = Provider.of<CotizacionProvider>(context);
     presupuestosProvider.cargarServiciosDelPre(idPre);
     final List<PresupuestoserviciosModel> servDelPre =

@@ -38,8 +38,7 @@ class CotizacionProvider extends ChangeNotifier {
 
   editarPresupuesto(PresupuestoModel presupuesto) async {
     await DBProvider.db.updatePresupuesto(presupuesto);
-    totalDelPre = 0;
-    serviciosDelPresupuesto = [];
+    limpiarVariables();
     notifyListeners();
   }
 
@@ -81,5 +80,12 @@ class CotizacionProvider extends ChangeNotifier {
   borrarServicioDelPrePorId(int id) async {
     await DBProvider.db.deleteServicioDelPre(id);
     notifyListeners();
+  }
+
+  limpiarVariables() async {
+    totalDelPre = 0;
+    serviciosDelPresupuesto = [];
+    print('se limpio');
+    print(serviciosDelPresupuesto);
   }
 }

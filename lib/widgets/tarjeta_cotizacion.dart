@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:services_manager_app/models/presupuesto_model.dart';
 import 'package:services_manager_app/providers/cotizacion_provider.dart';
+import 'package:services_manager_app/screens/show_cotizacion.dart';
 
 class TarjetaCotizacion extends StatefulWidget {
   final PresupuestoModel presupuesto;
@@ -68,14 +69,22 @@ class _TarjetaCotizacionState extends State<TarjetaCotizacion> {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  const Text(
-                    'cotización...',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Colors.cyan),
-                    overflow: TextOverflow.ellipsis,
+                  GestureDetector(
+                    onTap: () {
+                      final route = MaterialPageRoute(builder: (context) {
+                        return ShowCotizacion(presupuesto: presupuesto);
+                      });
+                      Navigator.push(context, route);
+                    },
+                    child: const Text(
+                      'cotización...',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Colors.cyan),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ],
               ),
