@@ -28,12 +28,13 @@ class PresupuestoserviciosModel {
 
   factory PresupuestoserviciosModel.fromJson(Map<String, dynamic> json) =>
       PresupuestoserviciosModel(
-          id: json["id_preserv"],
-          cantidad: json["cant_preserv"],
-          idp: json["id_pre"],
-          idserv: json["id_serv"],
-          nomserv: json["nom_serv"],
-          precioU: json["prec_serv"]);
+        id: json["id_preserv"],
+        cantidad: json["cant_preserv"],
+        idp: json["id_pre"],
+        idserv: json["id_serv"],
+        nomserv: json["nom_serv"],
+        precioU: json["prec_serv"],
+      );
 
   Map<String, dynamic> toJsonForInsert() => {
         "id_preserv": null,

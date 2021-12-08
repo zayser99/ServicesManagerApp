@@ -1,37 +1,50 @@
 import 'dart:convert';
 
-EventosserviciosModel eventosserviciosModelFromJson(String str) => EventosserviciosModel.fromJson(json.decode(str));
+EventosserviciosModel eventosserviciosModelFromJson(String str) =>
+    EventosserviciosModel.fromJson(json.decode(str));
 
-String eventosserviciosModelToJson(EventosserviciosModel data) => json.encode(data.toJson());
+String eventosserviciosModelToJson(EventosserviciosModel data) =>
+    json.encode(data.toJson());
 
 class EventosserviciosModel {
-    EventosserviciosModel({
-        required this.id,
-        required this.comentario,
-        required this.ceserv,
-        required this.idev,
-        required this.idserv,
-    });
+  EventosserviciosModel(
+      {required this.id,
+      required this.cantidad,
+      required this.idEv,
+      required this.idserv,
+      required this.nomserv,
+      required this.precioU});
 
-    int id;
-    String comentario;
-    int ceserv;
-    int idev;
-    int idserv;
+  int id;
+  int cantidad;
+  int idEv;
+  int idserv;
+  String nomserv;
+  double precioU;
 
-    factory EventosserviciosModel.fromJson(Map<String, dynamic> json) => EventosserviciosModel(
+  factory EventosserviciosModel.fromJson(Map<String, dynamic> json) =>
+      EventosserviciosModel(
         id: json["id_evserv"],
-        comentario: json["com_evserv"],
-        ceserv: json["cant_evserv"],
-        idev: json["id_ev"],
+        cantidad: json["cant_evserv"],
+        idEv: json["id_ev"],
         idserv: json["id_serv"],
-    );
+        nomserv: json["nom_serv"],
+        precioU: json["prec_serv"],
+      );
 
-    Map<String, dynamic> toJson() => {
-        "id_evserv": id,
-        "com_evserv": comentario,
-        "cant_evserv": ceserv,
-        "id_ev": idev,
+  Map<String, dynamic> toJsonForInsert() => {
+        "id_evserv": null,
+        "com_preserv": "ninguno",
+        "cant_evserv": cantidad,
+        "id_ev": idEv,
         "id_serv": idserv,
-    };
+      };
+
+  Map<String, dynamic> toJson() => {
+        "id_evserv": id,
+        "com_preserv": "ninguno",
+        "cant_evserv": cantidad,
+        "id_ev": idEv,
+        "id_serv": idserv,
+      };
 }
