@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:services_manager_app/models/presupuestoservicio_model.dart';
 import 'package:services_manager_app/providers/cotizacion_provider.dart';
 
-class TarjetaServiciosMini extends StatefulWidget {
+class TarjetaServiciosMiniPre extends StatefulWidget {
   final PresupuestoserviciosModel servicioDelpre;
-  const TarjetaServiciosMini({Key? key, required this.servicioDelpre})
+  const TarjetaServiciosMiniPre({Key? key, required this.servicioDelpre})
       : super(key: key);
 
   @override
-  State<TarjetaServiciosMini> createState() =>
+  State<TarjetaServiciosMiniPre> createState() =>
       // ignore: no_logic_in_create_state
-      _TarjetaServiciosMiniState(servicioDelpre: servicioDelpre);
+      _TarjetaServiciosMiniPreState(servicioDelpre: servicioDelpre);
 }
 
-class _TarjetaServiciosMiniState extends State<TarjetaServiciosMini> {
+class _TarjetaServiciosMiniPreState extends State<TarjetaServiciosMiniPre> {
   final PresupuestoserviciosModel servicioDelpre;
-  _TarjetaServiciosMiniState({required this.servicioDelpre});
+  _TarjetaServiciosMiniPreState({required this.servicioDelpre});
   @override
   Widget build(BuildContext context) {
     return Container(

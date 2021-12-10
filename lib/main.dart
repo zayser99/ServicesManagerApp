@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:services_manager_app/providers/citas_provider.dart';
 import 'package:services_manager_app/providers/clientes_provider.dart';
 import 'package:services_manager_app/providers/cotizacion_provider.dart';
+import 'package:services_manager_app/providers/eventos_provider.dart';
 import 'package:services_manager_app/providers/servicios_provider.dart';
 import 'package:services_manager_app/screens/screens.dart';
 
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ServiciosProvider()),
         ChangeNotifierProvider(create: (_) => CitasProvider()),
         ChangeNotifierProvider(create: (_) => CotizacionProvider()),
+        ChangeNotifierProvider(create: (_) => EventosProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -52,8 +54,7 @@ class MyApp extends StatelessWidget {
 //          'EditarCliente': (_) => const EditarCliente(),
           // 'AgregarCotizacion': (_) => const AgregarCotizacion(),
           // 'EditarCotizacion': (_) => const EditarCotizacion(),
-          'AgregarEvento': (_) => const AgregarEvento(),
-          'EditarEvento': (_) => const EditarEvento(),
+          // 'AgregarEvento': (_) => const AgregarEvento(),
         },
         onGenerateRoute: (settings) {
           return MaterialPageRoute(

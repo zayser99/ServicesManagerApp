@@ -34,7 +34,7 @@ class EventosserviciosModel {
 
   Map<String, dynamic> toJsonForInsert() => {
         "id_evserv": null,
-        "com_preserv": "ninguno",
+        "com_evserv": "ninguno",
         "cant_evserv": cantidad,
         "id_ev": idEv,
         "id_serv": idserv,
@@ -42,7 +42,7 @@ class EventosserviciosModel {
 
   Map<String, dynamic> toJson() => {
         "id_evserv": id,
-        "com_preserv": "ninguno",
+        "com_evserv": "ninguno",
         "cant_evserv": cantidad,
         "id_ev": idEv,
         "id_serv": idserv,

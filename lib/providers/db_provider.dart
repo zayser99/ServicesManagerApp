@@ -15,6 +15,10 @@ import 'package:services_manager_app/models/presupuesto_model.dart';
 import 'package:services_manager_app/models/presupuestoservicio_model.dart';
 export 'package:services_manager_app/models/presupuesto_model.dart';
 export 'package:services_manager_app/models/presupuestoservicio_model.dart';
+import 'package:services_manager_app/models/eventosservicios_model.dart';
+export 'package:services_manager_app/models/eventosservicios_model.dart';
+import 'package:services_manager_app/models/eventos_model.dart';
+export 'package:services_manager_app/models/eventos_model.dart';
 
 class DBProvider {
   static Database? _database;
@@ -282,8 +286,7 @@ class DBProvider {
     return res;
   }
 
-  //EVENTOS Y Cotizaciones
-
+// este es compartido entre eventos y servicios y sirbe para llenar los search delegates de respuestas
   Future<List<ServiciosModel>> getSerchServicios(String buscando) async {
     final db = await database;
     final res = await db!
@@ -293,6 +296,8 @@ class DBProvider {
         ? res.map((s) => ServiciosModel.fromJson(s)).toList()
         : [];
   }
+
+  //Cotizaciones y su carrito
 
   Future<List<PresupuestoserviciosModel>> getServiciosDelPres(int id) async {
     final db = await database;
@@ -304,7 +309,7 @@ class DBProvider {
         : [];
   }
 
-  Future<List<PresupuestoModel>> getTodosLossPresupuestos() async {
+  Future<List<PresupuestoModel>> getTodosLosPresupuestos() async {
     final db = await database;
     final res = await db!.rawQuery(
         'SELECT id_pre, fecha_pre, total_pre, com__pre, id_cli, nom_cli, ape_cli from PRESUPUESTOS NATURAL JOIN CLIENTES');
@@ -355,7 +360,6 @@ class DBProvider {
         .replaceAll("]", "")
         .replaceAll(": ", "")
         .replaceAll("total", "");
-    print(variable);
     if (variable == 'null') return 0;
 
     return double.parse(variable);
@@ -365,6 +369,89 @@ class DBProvider {
     final db = await database;
     final res = await db!.delete('PRESUPUESTO_SERVICIO',
         where: 'id_preserv = ?', whereArgs: [id]);
+    return res;
+  }
+
+  //Eventos y su carrito
+
+  // Future<List<ServiciosModel>> getSerchServicios(String buscando) async {
+  //   final db = await database;
+  //   final res = await db!
+  //       .rawQuery('SELECT * FROM SERVICIOS WHERE	nom_serv LIKE "%$buscando%"');
+
+  //   return res.isNotEmpty
+  //       ? res.map((s) => ServiciosModel.fromJson(s)).toList()
+  //       : [];
+  // }
+
+  Future<List<EventosserviciosModel>> getServiciosDelEve(int id) async {
+    final db = await database;
+    final res = await db!.rawQuery(
+        'SELECT id_ev, id_serv, id_evserv, cant_evserv, nom_serv, prec_serv FROM EVENTO_SERVICIO NATURAL JOIN SERVICIOS WHERE id_ev= $id;');
+
+    return res.isNotEmpty
+        ? res.map((s) => EventosserviciosModel.fromJson(s)).toList()
+        : [];
+  }
+
+  Future<List<EventosModel>> getTodosLosEventos() async {
+    final db = await database;
+    final res = await db!.rawQuery(
+        'SELECT id_ev, fecha_ev, hora_ev, total_ev, com_ev, id_cli, nom_cli, ape_cli from EVENTOS NATURAL JOIN CLIENTES');
+
+    return res.isNotEmpty
+        ? res.map((s) => EventosModel.fromJson(s)).toList()
+        : [];
+  }
+
+  Future<int?> nuevoEvento(EventosModel nuevoEvento) async {
+    final db = await database;
+    final res = await db?.insert('EVENTOS', nuevoEvento.toJsonforInsert());
+    return res;
+  }
+
+  Future<int> updateEvento(EventosModel nuevoEvento) async {
+    final db = await database;
+    final res = await db!.update('EVENTOS', nuevoEvento.toJson(),
+        where: 'id_ev = ?', whereArgs: [nuevoEvento.id]);
+    return res;
+  }
+
+  Future<int> deleteEvento(int id) async {
+    final db = await database;
+    final res =
+        await db!.delete('EVENTOS', where: 'id_ev = ?', whereArgs: [id]);
+    return res;
+  }
+
+  Future<int?> nuevoServiciodelEve(EventosserviciosModel nuevoEvento) async {
+    final db = await database;
+    final res =
+        await db?.insert('EVENTO_SERVICIO', nuevoEvento.toJsonForInsert());
+    return res;
+  }
+
+  Future<double?> sumaTotalEvento(id) async {
+    final db = await database;
+    final res = await db?.rawQuery(
+        'SELECT  sum(prec_serv *cant_evserv) as total FROM EVENTO_SERVICIO NATURAL JOIN SERVICIOS WHERE id_ev=$id;');
+    var variable = res.toString();
+    variable = variable
+        .replaceAll("{", "")
+        .replaceAll("}", "")
+        .replaceAll("[", "")
+        .replaceAll("]", "")
+        .replaceAll(": ", "")
+        .replaceAll("total", "");
+    if (variable == 'null') return 0;
+
+    return double.parse(variable);
+  }
+
+  Future<int> deleteServicioDelEve(int id) async {
+    final db = await database;
+    final res = await db!
+        .delete('EVENTO_SERVICIO', where: 'id_evserv = ?', whereArgs: [id]);
     return res;
   }
 }

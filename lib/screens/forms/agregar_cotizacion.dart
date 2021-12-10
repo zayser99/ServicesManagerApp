@@ -7,7 +7,7 @@ import 'package:services_manager_app/providers/clientes_provider.dart';
 import 'package:services_manager_app/providers/cotizacion_provider.dart';
 
 import 'package:services_manager_app/search/search_delegate_for_coti.dart';
-import 'package:services_manager_app/widgets/tarjeta_servicios_mini.dart';
+import 'package:services_manager_app/widgets/tarjeta_servicios_mini_pre.dart';
 
 class AgregarCotizacion extends StatefulWidget {
   final int idPre;
@@ -168,7 +168,7 @@ class _AgregarCotizacionState extends State<AgregarCotizacion> {
         child: ListView.builder(
           itemCount: serviciosDelPresupuesto.length,
           itemBuilder: (BuildContext context, int index) {
-            return TarjetaServiciosMini(
+            return TarjetaServiciosMiniPre(
                 servicioDelpre: serviciosDelPresupuesto[index]);
           },
         ),

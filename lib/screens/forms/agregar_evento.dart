@@ -1,16 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:services_manager_app/models/cliente_model.dart';
+import 'package:services_manager_app/models/eventos_model.dart';
+import 'package:services_manager_app/models/eventosservicios_model.dart';
+import 'package:services_manager_app/providers/clientes_provider.dart';
+import 'package:services_manager_app/providers/eventos_provider.dart';
+import 'package:services_manager_app/search/search_delegate_for_eve.dart';
+import 'package:services_manager_app/widgets/tarjeta_servicios_mini_eve.dart';
 
 class AgregarEvento extends StatefulWidget {
-  const AgregarEvento({Key? key}) : super(key: key);
+  final int idEve;
+  const AgregarEvento({Key? key, required this.idEve}) : super(key: key);
 
   @override
-  State<AgregarEvento> createState() => _AgregarEventoState();
+  // ignore: no_logic_in_create_state
+  State<AgregarEvento> createState() => _AgregarEventoState(idEve: idEve);
 }
 
 class _AgregarEventoState extends State<AgregarEvento> {
-  String dropdownValue = 'Sergio';
+  int dropdownValue = 1;
+  String _comentario = '';
+  int idEve;
+  _AgregarEventoState({required this.idEve});
   @override
   Widget build(BuildContext context) {
+    final clientesProvider = Provider.of<ClientesProvider>(context);
+    clientesProvider.cargarClientes();
+    final List<ClienteModel> clientes = clientesProvider.clientes;
+    final eventoProvider = Provider.of<EventosProvider>(context);
+    eventoProvider.cargarServiciosDelEve(idEve);
+    final List<EventosserviciosModel> servDelEve =
+        eventoProvider.serviciosDelEvento;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -20,6 +41,23 @@ class _AgregarEventoState extends State<AgregarEvento> {
             icon: const Icon(Icons.check),
             tooltip: 'agregar Evento',
             onPressed: () {
+              eventoProvider.cargarTotalDelEvento(idEve);
+              String fecha = DateTime.now().toString();
+              fecha = fecha.replaceRange(10, 26, '');
+              String hora = DateTime.now().toString();
+              hora = hora.replaceRange(0, 10, '');
+              hora = hora.replaceRange(6, 16, '');
+
+              final evento = EventosModel(
+                comentario: _comentario,
+                fecha: fecha,
+                hora: hora,
+                id: idEve,
+                idcliente: dropdownValue,
+                nomcliente: '',
+                total: eventoProvider.totalDelEve,
+              );
+              eventoProvider.editarEvento(evento);
               Navigator.pop(context);
             },
           ),
@@ -29,19 +67,28 @@ class _AgregarEventoState extends State<AgregarEvento> {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         child: Column(
           children: [
-            _showID('1'),
+            _showID(idEve.toString()),
             const Divider(height: 10),
-            _inputTipo(),
+            _inputTipo(clientes),
             const Divider(height: 10),
             _inputCom(),
             const Divider(height: 10),
-            _showTotal('0'),
+            _showTotal(eventoProvider.totalDelEve.toString()),
             const Divider(height: 20),
-            _lisviewServicios(),
+            _lisviewServicios(servDelEve),
             const Divider(height: 10),
-            _inputBuscarServicio()
           ],
         ),
+      ),
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterDocked,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.indigo,
+        onPressed: () {
+          showSearch(
+              context: context, delegate: EventoSearchDelegate(idEve: idEve));
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
@@ -81,48 +128,33 @@ class _AgregarEventoState extends State<AgregarEvento> {
         labelText: 'Comentario',
         icon: const Icon(Icons.list),
       ),
+      onChanged: (valor) {
+        _comentario = valor;
+      },
     );
   }
 
-  Widget _inputBuscarServicio() {
-    return TextField(
-      decoration: InputDecoration(
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-        hintText: 'Buscar Servicio',
-        labelText: 'Agregar Servicio',
-        icon: const Icon(Icons.search, color: Colors.indigo),
-      ),
-    );
-  }
-
-  Widget _inputTipo() {
+  Widget _inputTipo(List<ClienteModel> clientes) {
     return Row(
       children: [
         const Padding(
           padding: EdgeInsets.only(right: 15),
-          child: Icon(Icons.account_circle_outlined, color: Colors.grey),
+          child: Icon(Icons.build_circle_outlined, color: Colors.grey),
         ),
-        DropdownButton<String>(
+        DropdownButton(
           value: dropdownValue,
           icon: const Icon(Icons.arrow_downward),
           iconSize: 24,
           elevation: 16,
-          onChanged: (String? newValue) {
+          onChanged: (int? newValue) {
             setState(() {
               dropdownValue = newValue!;
             });
           },
-          items: <String>[
-            'Sergio',
-            'Manuel ',
-            'Pablo',
-            'Alejandro',
-            'Alejandra',
-            'Pao'
-          ].map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
+          items: clientes.map((list) {
+            return DropdownMenuItem(
+              child: Text(list.nombre + " " + list.apellido),
+              value: list.id,
             );
           }).toList(),
         ),
@@ -130,15 +162,15 @@ class _AgregarEventoState extends State<AgregarEvento> {
     );
   }
 
-  Widget _lisviewServicios() {
+  Widget _lisviewServicios(List<EventosserviciosModel> serviciosDelEvento) {
     return Expanded(
       child: SizedBox(
         width: double.infinity,
         child: ListView.builder(
-          itemCount: 0,
+          itemCount: serviciosDelEvento.length,
           itemBuilder: (BuildContext context, int index) {
-            return Container();
-            // return const TarjetaServiciosMini();
+            return TarjetaServiciosMiniEve(
+                servicioDelEve: serviciosDelEvento[index]);
           },
         ),
       ),

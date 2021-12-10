@@ -26,7 +26,7 @@ class CotizacionProvider extends ChangeNotifier {
   }
 
   cargarPresupuestos() async {
-    final scans = await DBProvider.db.getTodosLossPresupuestos();
+    final scans = await DBProvider.db.getTodosLosPresupuestos();
     presupuestos = [...scans];
     notifyListeners();
   }
@@ -85,7 +85,5 @@ class CotizacionProvider extends ChangeNotifier {
   limpiarVariables() async {
     totalDelPre = 0;
     serviciosDelPresupuesto = [];
-    print('se limpio');
-    print(serviciosDelPresupuesto);
   }
 }

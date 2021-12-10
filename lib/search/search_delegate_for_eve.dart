@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:services_manager_app/models/servicios_model.dart';
-import 'package:services_manager_app/providers/cotizacion_provider.dart';
+import 'package:services_manager_app/providers/eventos_provider.dart';
 
-class CotizacionSearchDelegate extends SearchDelegate {
-  int idPre;
-  CotizacionSearchDelegate({required this.idPre});
+class EventoSearchDelegate extends SearchDelegate {
+  int idEve;
+  EventoSearchDelegate({required this.idEve});
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
@@ -33,10 +33,10 @@ class CotizacionSearchDelegate extends SearchDelegate {
     if (query.isEmpty) {
       return _emptyContainer();
     }
-    final cotizacionProvider =
-        Provider.of<CotizacionProvider>(context, listen: false);
+    final eventosProvider =
+        Provider.of<EventosProvider>(context, listen: false);
     return FutureBuilder(
-      future: cotizacionProvider.cargarServiciosEncontrados(query),
+      future: eventosProvider.cargarServiciosEncontrados(query),
       builder: (_, AsyncSnapshot<List<ServiciosModel>> snapshot) {
         if (!snapshot.hasData) {
           return _emptyContainer();
@@ -45,8 +45,11 @@ class CotizacionSearchDelegate extends SearchDelegate {
 
         return ListView.builder(
           itemCount: servicios!.length,
-          itemBuilder: (_, int index) {
-            return _ServicioItem(servicio: servicios[index], idPre: idPre);
+          itemBuilder: (
+            _,
+            int index,
+          ) {
+            return _ServicioItem(servicio: servicios[index], idEve: idEve);
           },
         );
       },
@@ -68,10 +71,10 @@ class CotizacionSearchDelegate extends SearchDelegate {
     if (query.isEmpty) {
       return _emptyContainer();
     }
-    final cotizacionProvider =
-        Provider.of<CotizacionProvider>(context, listen: false);
+    final eventosProvider =
+        Provider.of<EventosProvider>(context, listen: false);
     return FutureBuilder(
-      future: cotizacionProvider.cargarServiciosEncontrados(query),
+      future: eventosProvider.cargarServiciosEncontrados(query),
       builder: (_, AsyncSnapshot<List<ServiciosModel>> snapshot) {
         if (!snapshot.hasData) {
           return _emptyContainer();
@@ -84,7 +87,7 @@ class CotizacionSearchDelegate extends SearchDelegate {
             _,
             int index,
           ) {
-            return _ServicioItem(servicio: servicios[index], idPre: idPre);
+            return _ServicioItem(servicio: servicios[index], idEve: idEve);
           },
         );
       },
@@ -94,12 +97,12 @@ class CotizacionSearchDelegate extends SearchDelegate {
 
 class _ServicioItem extends StatelessWidget {
   final ServiciosModel servicio;
-  final int idPre;
-  const _ServicioItem({required this.servicio, required this.idPre});
+  final int idEve;
+  const _ServicioItem({required this.servicio, required this.idEve});
 
   @override
   Widget build(BuildContext context) {
-    final cotizacionProvider = Provider.of<CotizacionProvider>(context);
+    final eventoProvider = Provider.of<EventosProvider>(context);
     return Container(
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(10),
@@ -162,8 +165,8 @@ class _ServicioItem extends StatelessWidget {
                   color: Colors.greenAccent,
                 ),
                 onPressed: () {
-                  cotizacionProvider.nuevoServicioDelPre(idPre, servicio.id);
-                  cotizacionProvider.cargarTotalDelPresupuesto(idPre);
+                  eventoProvider.nuevoServicioDelEve(idEve, servicio.id);
+                  eventoProvider.cargarTotalDelEvento(idEve);
                   showDialog(
                     context: context,
                     builder: (contex) {

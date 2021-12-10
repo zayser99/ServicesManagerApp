@@ -102,7 +102,6 @@ class CotizarScreen extends StatelessWidget {
   Future<int> _agregarNuevaCotizacion(
       CotizacionProvider cotizacionProvider) async {
     int idPre = await cotizacionProvider.nuevoPresupuesto('', '', 1, 0);
-    print(idPre.toString());
     return idPre;
   }
 }

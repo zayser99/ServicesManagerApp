@@ -19,7 +19,7 @@ class EventosModel {
   int id;
   String fecha;
   String hora;
-  String total;
+  double total;
   String comentario;
   int idcliente;
   String nomcliente;

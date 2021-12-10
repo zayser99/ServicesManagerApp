@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:services_manager_app/models/eventos_model.dart';
+import 'package:services_manager_app/screens/show_evento.dart';
 
 class TarjetaEventos extends StatefulWidget {
-  const TarjetaEventos({Key? key}) : super(key: key);
+  final EventosModel evento;
+  const TarjetaEventos({Key? key, required this.evento}) : super(key: key);
 
   @override
-  State<TarjetaEventos> createState() => _TarjetaEventosState();
+  // ignore: no_logic_in_create_state
+  State<TarjetaEventos> createState() => _TarjetaEventosState(evento: evento);
 }
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _TarjetaEventosState extends State<TarjetaEventos> {
+  final EventosModel evento;
+  _TarjetaEventosState({required this.evento});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,9 +40,9 @@ class _TarjetaEventosState extends State<TarjetaEventos> {
           Container(
             padding: const EdgeInsets.only(right: 10),
             child: Column(
-              children: const [
-                Expanded(child: Text('1'), flex: 1),
-                Expanded(
+              children: [
+                Expanded(child: Text(evento.id.toString()), flex: 1),
+                const Expanded(
                     child: Icon(
                       Icons.library_books_outlined,
                       color: Colors.indigo,
@@ -51,18 +58,18 @@ class _TarjetaEventosState extends State<TarjetaEventos> {
             children: [
               Row(
                 // ignore: unnecessary_const
-                children: const [
+                children: [
                   Expanded(
                     child: Text(
-                      '\$500mnx',
+                      '\$${evento.total}mnx',
                       textAlign: TextAlign.left,
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  Text(
-                    'Evento',
+                  const Text(
+                    'EVENTO',
                     textAlign: TextAlign.left,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -72,28 +79,36 @@ class _TarjetaEventosState extends State<TarjetaEventos> {
                   ),
                 ],
               ),
-              const Text(
-                'Juan Alejandro perez lopez',
+              Text(
+                evento.nomcliente,
                 textAlign: TextAlign.left,
-                style: TextStyle(
+                style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                     color: Colors.indigo),
                 overflow: TextOverflow.ellipsis,
               ),
-              const Text(
-                '30 de ocubre 2021 a las 12pm',
+              Text(
+                '${evento.fecha} a las ${evento.hora}',
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.justify,
               ),
-              const Text(
-                'Detalles...',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: Colors.indigo),
-                overflow: TextOverflow.ellipsis,
+              GestureDetector(
+                onTap: () {
+                  final route = MaterialPageRoute(builder: (context) {
+                    return ShowEvento(evento: evento);
+                  });
+                  Navigator.push(context, route);
+                },
+                child: const Text(
+                  'Detalles...',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Colors.cyan),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ],
           )),
