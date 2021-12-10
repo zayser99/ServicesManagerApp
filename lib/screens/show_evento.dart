@@ -28,7 +28,7 @@ class _ShowEventoState extends State<ShowEvento> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('Cotización: #${evento.id}'),
+        title: Text('Evento: #${evento.id}'),
         actions: [
           IconButton(
             icon: const Icon(Icons.check),

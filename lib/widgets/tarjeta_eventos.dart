@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:services_manager_app/models/eventos_model.dart';
+import 'package:services_manager_app/providers/eventos_provider.dart';
 import 'package:services_manager_app/screens/show_evento.dart';
 
 class TarjetaEventos extends StatefulWidget {
@@ -139,18 +140,6 @@ class _TarjetaEventosState extends State<TarjetaEventos> {
           ),
           value: 'eliminar',
         ),
-        PopupMenuItem(
-          child: Row(
-            children: const [
-              Expanded(child: Text("Editar")),
-              Icon(
-                Icons.edit,
-                color: Colors.indigo,
-              ),
-            ],
-          ),
-          value: 'EditarEvento',
-        )
       ],
       onSelected: (route) {
         if (route == 'eliminar') {
@@ -174,15 +163,17 @@ class _TarjetaEventosState extends State<TarjetaEventos> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () => Navigator.pop(context, 'OK'),
+                      onPressed: () {
+                        final eventoProvider = EventosProvider();
+                        eventoProvider.borrarEventoPorId(evento.id);
+                        Navigator.pop(context, 'OK');
+                      },
                       child:
                           const Text('OK', style: TextStyle(color: Colors.red)),
                     ),
                   ],
                 );
               });
-        } else {
-          Navigator.pushNamed(context, route);
         }
       },
     );
