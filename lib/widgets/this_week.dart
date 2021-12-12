@@ -2,7 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:services_manager_app/widgets/widgets.dart';
 
 class ThisWeek extends StatelessWidget {
-  const ThisWeek({Key? key}) : super(key: key);
+  final int servicios;
+  final double ganancias;
+  final int pendinetes;
+  final int clientes;
+  const ThisWeek(
+      {Key? key,
+      required this.servicios,
+      required this.ganancias,
+      required this.pendinetes,
+      required this.clientes})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +26,7 @@ class ThisWeek extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.only(top: 10, left: 5),
-            child: const Text('Esta Semana',
+            child: const Text('Este Mes',
                 textAlign: TextAlign.start,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
           ),
@@ -26,29 +36,29 @@ class ThisWeek extends StatelessWidget {
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               scrollDirection: Axis.horizontal,
-              children: const [
+              children: [
                 MiniCard(
                   title: 'Servicios   ',
                   toImage: 'assets/icons/servicios.png',
-                  dato: '15',
+                  dato: '$servicios',
                 ),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 MiniCard(
                   title: 'Ganancias',
                   toImage: 'assets/icons/ganancias.png',
-                  dato: '\$34.4k',
+                  dato: '\$$ganancias',
                 ),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 MiniCard(
                   title: 'Pendientes   ',
                   toImage: 'assets/icons/pendientes.png',
-                  dato: '8',
+                  dato: '$pendinetes',
                 ),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 MiniCard(
                   title: 'clientes at.',
                   toImage: 'assets/icons/clientes1.png',
-                  dato: '15',
+                  dato: '$clientes',
                 ),
               ],
             ),

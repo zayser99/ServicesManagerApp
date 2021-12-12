@@ -4,7 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:services_manager_app/providers/citas_provider.dart';
 import 'package:services_manager_app/providers/clientes_provider.dart';
 import 'package:services_manager_app/providers/cotizacion_provider.dart';
+import 'package:services_manager_app/providers/estadisticas_provider.dart';
 import 'package:services_manager_app/providers/eventos_provider.dart';
+import 'package:services_manager_app/providers/peindientes_provider.dart';
 import 'package:services_manager_app/providers/servicios_provider.dart';
 import 'package:services_manager_app/screens/screens.dart';
 
@@ -30,6 +32,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CitasProvider()),
         ChangeNotifierProvider(create: (_) => CotizacionProvider()),
         ChangeNotifierProvider(create: (_) => EventosProvider()),
+        ChangeNotifierProvider(create: (_) => PendinetesProvider()),
+        ChangeNotifierProvider(create: (_) => EstadisticasProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -38,7 +42,7 @@ class MyApp extends StatelessWidget {
         routes: {
           'home': (_) => const HomeScreen(),
           'eventosScreen': (_) => const EventosScreen(),
-          'pendientesScreen': (_) => const PendientesScreen(),
+          // 'pendientesScreen': (_) => const PendientesScreen(),
           'citasScreen': (_) => const CitasScreen(),
           'clientesScreen': (_) => const ClientesScreen(),
           'cotizarScreen': (_) => const CotizarScreen(),

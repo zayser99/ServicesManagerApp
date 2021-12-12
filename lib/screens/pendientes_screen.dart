@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:services_manager_app/models/citas_model.dart';
 import 'package:services_manager_app/widgets/widgets.dart';
 
 class PendientesScreen extends StatefulWidget {
-  const PendientesScreen({Key? key}) : super(key: key);
+  final List<CitasModel> pendientes;
+  const PendientesScreen({Key? key, required this.pendientes})
+      : super(key: key);
 
   @override
-  State<PendientesScreen> createState() => _PendientesScreenState();
+  State<PendientesScreen> createState() =>
+      // ignore: no_logic_in_create_state
+      _PendientesScreenState(pendientes: pendientes);
 }
 
 class _PendientesScreenState extends State<PendientesScreen> {
+  List<CitasModel> pendientes;
+  _PendientesScreenState({required this.pendientes});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,9 +41,11 @@ class _PendientesScreenState extends State<PendientesScreen> {
       child: SizedBox(
         width: double.infinity,
         child: ListView.builder(
-          itemCount: 10,
+          itemCount: pendientes.length,
           itemBuilder: (BuildContext context, int index) {
-            return const TarjetaPendientes();
+            return TarjetaPendientes(
+              itemPendiente: pendientes[index],
+            );
           },
         ),
       ),

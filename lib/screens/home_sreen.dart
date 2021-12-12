@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:services_manager_app/models/citas_model.dart';
+import 'package:services_manager_app/providers/estadisticas_provider.dart';
+import 'package:services_manager_app/providers/peindientes_provider.dart';
+import 'package:services_manager_app/screens/pendientes_screen.dart';
 import 'package:services_manager_app/widgets/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -9,31 +14,61 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool bandera = true;
   @override
   Widget build(BuildContext context) {
-    // final cliente = ClienteModel(
-    //     id: 0,
-    //     nombre: 'Patricia',
-    //     apellido: 'SOlano Solano',
-    //     numero: '9382002024',
-    //     mail: 'solanopaty@gmail.com',
-    //     rfc: '12w341543423');
-
-    // DBProvider.db.nuevoCliente(cliente);
+    final pendientesProvider = Provider.of<PendinetesProvider>(context);
+    final estadisticasProvider = Provider.of<EstadisticasProvider>(context);
+    final List<CitasModel> pendientes = pendientesProvider.pendientes;
+    if (bandera) {
+      pendientesProvider.cargarPendientes();
+      ///////////////////////////////
+      estadisticasProvider.cargarTotalClientes();
+      estadisticasProvider.cargarTotalDeServicios();
+      estadisticasProvider.cargarTotalGanancias();
+      estadisticasProvider.cargarTotalpendientes();
+      bandera = false;
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Inicio'),
         backgroundColor: Colors.indigo,
+        actions: [
+          IconButton(
+              onPressed: () {
+                pendientesProvider.cargarPendientes();
+                ///////////////////////////////
+                estadisticasProvider.cargarTotalClientes();
+                estadisticasProvider.cargarTotalDeServicios();
+                estadisticasProvider.cargarTotalGanancias();
+                estadisticasProvider.cargarTotalpendientes();
+              },
+              icon: const Icon(Icons.update_sharp))
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
-          children: const [
+          children: [
             // Tarjetas de this week
-            ThisWeek(),
+            ThisWeek(
+              clientes: estadisticasProvider.clientes,
+              ganancias: estadisticasProvider.ganancias,
+              pendinetes: estadisticasProvider.pendinetes,
+              servicios: estadisticasProvider.servicios,
+            ),
             //chebox list
-            Pendientes(),
+            GestureDetector(
+              onTap: () {
+                pendientesProvider.cargarPendientes();
+                final route = MaterialPageRoute(builder: (context) {
+                  return PendientesScreen(pendientes: pendientes);
+                });
+                Navigator.push(context, route);
+              },
+              child: Pendientes(pendientes: pendientes),
+            ),
             //tarjetas grandes
-            Gestionar(),
+            const Gestionar(),
           ],
         ),
       ),

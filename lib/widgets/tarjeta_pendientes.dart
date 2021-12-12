@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:services_manager_app/models/citas_model.dart';
+import 'package:services_manager_app/providers/peindientes_provider.dart';
 
 class TarjetaPendientes extends StatefulWidget {
-  const TarjetaPendientes({Key? key}) : super(key: key);
+  final CitasModel itemPendiente;
+  const TarjetaPendientes({Key? key, required this.itemPendiente})
+      : super(key: key);
 
   @override
-  State<TarjetaPendientes> createState() => _TarjetaPendientesState();
+  State<TarjetaPendientes> createState() =>
+      // ignore: no_logic_in_create_state
+      _TarjetaPendientesState(itemPendiente: itemPendiente);
 }
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _TarjetaPendientesState extends State<TarjetaPendientes> {
+  final CitasModel itemPendiente;
   bool isChecked = false;
+  _TarjetaPendientesState({required this.itemPendiente});
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +43,9 @@ class _TarjetaPendientesState extends State<TarjetaPendientes> {
           Container(
             padding: const EdgeInsets.only(right: 10),
             child: Column(
-              children: const [
-                Expanded(child: Text('1'), flex: 1),
-                Expanded(
+              children: [
+                Expanded(child: Text('${itemPendiente.id}'), flex: 1),
+                const Expanded(
                     child: Icon(
                       Icons.design_services_rounded,
                       color: Colors.indigo,
@@ -51,51 +59,33 @@ class _TarjetaPendientesState extends State<TarjetaPendientes> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                '5 de ocubre 2021 a las 12pm',
+              Text(
+                '${itemPendiente.fecha} a las ${itemPendiente.hora}',
                 textAlign: TextAlign.left,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                 overflow: TextOverflow.ellipsis,
               ),
-              const Text(
-                'Sergio Manuel Zaldivar Yerbes',
+              Text(
+                itemPendiente.nomcliente,
                 textAlign: TextAlign.left,
-                style: TextStyle(
+                style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                     color: Colors.indigo),
                 overflow: TextOverflow.ellipsis,
               ),
-              const Text(
-                'calle 26, #40, Col. 30 de julio (esquina con 8 de marzo)',
+              Text(
+                itemPendiente.comentario,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.justify,
-                style: TextStyle(fontSize: 12),
+                style: const TextStyle(fontSize: 12),
               ),
               Row(
-                children: const [
+                children: [
                   Expanded(
-                    child: Text(
-                      'LLAMAR',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.lightBlue),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      'Cotización...',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.indigo),
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    child: status(itemPendiente.status),
                   ),
                 ],
               ),
@@ -105,7 +95,6 @@ class _TarjetaPendientesState extends State<TarjetaPendientes> {
             padding: const EdgeInsets.only(left: 10),
             child: Column(
               children: [
-                Expanded(child: _desplegableBorEdit()),
                 Checkbox(
                   checkColor: Colors.white,
                   activeColor: Colors.indigo,
@@ -113,6 +102,23 @@ class _TarjetaPendientesState extends State<TarjetaPendientes> {
                   onChanged: (bool? value) {
                     setState(() {
                       isChecked = value!;
+                      String status = 'PENDIENTE';
+                      final pendientesProvider = PendinetesProvider();
+                      if (value) {
+                        status = 'ATENDIDO';
+                      }
+
+                      final pendiente = CitasModel(
+                        id: itemPendiente.id,
+                        fecha: itemPendiente.fecha,
+                        hora: itemPendiente.hora,
+                        comentario: itemPendiente.comentario,
+                        status: status,
+                        idcliente: itemPendiente.idcliente,
+                        nomcliente: itemPendiente.nomcliente,
+                        idpre: itemPendiente.idpre,
+                      );
+                      pendientesProvider.editarPendiente(pendiente);
                     });
                   },
                 ),
@@ -124,37 +130,23 @@ class _TarjetaPendientesState extends State<TarjetaPendientes> {
     );
   }
 
-  Widget _desplegableBorEdit() {
-    return PopupMenuButton(
-        child: const Icon(
-          Icons.arrow_drop_down_circle_sharp,
-          color: Colors.indigo,
-        ),
-        itemBuilder: (context) => [
-              PopupMenuItem(
-                child: Row(
-                  children: const [
-                    Expanded(child: Text("Eliminar")),
-                    Icon(
-                      Icons.delete,
-                      color: Colors.indigo,
-                    ),
-                  ],
-                ),
-                onTap: () {},
-              ),
-              PopupMenuItem(
-                child: Row(
-                  children: const [
-                    Expanded(child: Text("Editar")),
-                    Icon(
-                      Icons.edit,
-                      color: Colors.indigo,
-                    ),
-                  ],
-                ),
-                onTap: () {},
-              )
-            ]);
+  Widget status(String status) {
+    if (status != 'ATENDIDO') {
+      return Text(
+        status,
+        textAlign: TextAlign.left,
+        style: const TextStyle(
+            fontWeight: FontWeight.bold, fontSize: 16, color: Colors.orange),
+        overflow: TextOverflow.ellipsis,
+      );
+    } else {
+      return Text(
+        status,
+        textAlign: TextAlign.left,
+        style: const TextStyle(
+            fontWeight: FontWeight.bold, fontSize: 16, color: Colors.green),
+        overflow: TextOverflow.ellipsis,
+      );
+    }
   }
 }

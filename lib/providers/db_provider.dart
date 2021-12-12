@@ -290,7 +290,7 @@ class DBProvider {
   Future<List<ServiciosModel>> getSerchServicios(String buscando) async {
     final db = await database;
     final res = await db!
-        .rawQuery('SELECT * FROM SERVICIOS WHERE	nom_serv LIKE "%$buscando%"');
+        .rawQuery("SELECT * FROM SERVICIOS WHERE	nom_serv LIKE '%$buscando%'");
 
     return res.isNotEmpty
         ? res.map((s) => ServiciosModel.fromJson(s)).toList()
@@ -453,5 +453,95 @@ class DBProvider {
     final res = await db!
         .delete('EVENTO_SERVICIO', where: 'id_evserv = ?', whereArgs: [id]);
     return res;
+  }
+//pendinete
+
+  Future<List<CitasModel>> getTodosPendientesDelDia() async {
+    String fecha = DateTime.now().toString();
+    fecha = fecha.replaceRange(10, 26, '');
+    final db = await database;
+    final res = await db!.rawQuery(
+        "SELECT id_ci, fecha_ci, hora_ci, com_ci, status_ci, id_cli, nom_cli, ape_cli, id_pre FROM CITAS NATURAL JOIN CLIENTES WHERE fecha_ci  LIKE '%$fecha%'");
+    return res.isNotEmpty
+        ? res.map((s) => CitasModel.fromJson(s)).toList()
+        : [];
+  }
+
+  ////Consutas para la estadistica
+
+  Future<int?> totaldeServiciosDelMes() async {
+    String fecha = DateTime.now().toString();
+    fecha = fecha.replaceRange(8, 26, '');
+    final db = await database;
+    final res = await db?.rawQuery(
+        "SELECT count (id_evserv) as totalServicios from EVENTOS NATURAL join EVENTO_SERVICIO WHERE fecha_ev like '$fecha%'");
+    var variable = res.toString();
+    variable = variable
+        .replaceAll("{", "")
+        .replaceAll("}", "")
+        .replaceAll("[", "")
+        .replaceAll("]", "")
+        .replaceAll(": ", "")
+        .replaceAll("totalServicios", "");
+    if (variable == 'null') return 0;
+
+    return int.parse(variable);
+  }
+
+  Future<double?> totaldegananciasDelMes() async {
+    String fecha = DateTime.now().toString();
+    fecha = fecha.replaceRange(8, 26, '');
+    final db = await database;
+    final res = await db?.rawQuery(
+        "SELECT sum (total_ev) as total FROM EVENTOS WHERE fecha_ev like '$fecha%'");
+    var variable = res.toString();
+    variable = variable
+        .replaceAll("{", "")
+        .replaceAll("}", "")
+        .replaceAll("[", "")
+        .replaceAll("]", "")
+        .replaceAll(": ", "")
+        .replaceAll("total", "");
+    if (variable == 'null') return 0;
+
+    return double.parse(variable);
+  }
+
+  Future<int?> totalPendientesDelMes() async {
+    String fecha = DateTime.now().toString();
+    fecha = fecha.replaceRange(8, 26, '');
+    final db = await database;
+    final res = await db?.rawQuery(
+        "SELECT count(id_ci) as total FROM CITAS WHERE fecha_ci like '$fecha%' ");
+    var variable = res.toString();
+    variable = variable
+        .replaceAll("{", "")
+        .replaceAll("}", "")
+        .replaceAll("[", "")
+        .replaceAll("]", "")
+        .replaceAll(": ", "")
+        .replaceAll("total", "");
+    if (variable == 'null') return 0;
+
+    return int.parse(variable);
+  }
+
+  Future<int?> totalClientesAtendidos() async {
+    String fecha = DateTime.now().toString();
+    fecha = fecha.replaceRange(8, 26, '');
+    final db = await database;
+    final res = await db?.rawQuery(
+        "SELECT count(id_cli) as total from EVENTOS WHERE fecha_ev like  '$fecha%'");
+    var variable = res.toString();
+    variable = variable
+        .replaceAll("{", "")
+        .replaceAll("}", "")
+        .replaceAll("[", "")
+        .replaceAll("]", "")
+        .replaceAll(": ", "")
+        .replaceAll("total", "");
+    if (variable == 'null') return 0;
+
+    return int.parse(variable);
   }
 }
