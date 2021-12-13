@@ -57,7 +57,9 @@ class _ShowEventoState extends State<ShowEvento> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          print(eventoProvider.stringTicketEvento(evento));
+        },
         child: const Icon(
           Icons.print,
         ),
