@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'dart:io';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:path/path.dart';
+import 'package:open_file/open_file.dart';
+//////////////////////
 import 'package:services_manager_app/models/presupuesto_model.dart';
 import 'package:services_manager_app/models/presupuestoservicio_model.dart';
 import 'package:services_manager_app/providers/cotizacion_provider.dart';
@@ -57,7 +63,10 @@ class _ShowCotizacionState extends State<ShowCotizacion> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          generatePdf(presupuestosProvider.stringTicketCotizacion(presupuesto),
+              presupuesto.id);
+        },
         child: const Icon(
           Icons.print,
         ),
@@ -130,5 +139,21 @@ class _ShowCotizacionState extends State<ShowCotizacion> {
         ),
       ),
     );
+  }
+
+  Future<void> generatePdf(String ticket, int id) async {
+    final pdf = pw.Document();
+    pdf.addPage(
+      pw.Page(
+        build: (pw.Context context) => pw.Center(
+          child: pw.Text(ticket),
+        ),
+      ),
+    );
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    final path = join(appDocDir.path, 'cotizacionNum$id.pdf');
+    final file = File(path);
+    await file.writeAsBytes(await pdf.save());
+    OpenFile.open(path);
   }
 }

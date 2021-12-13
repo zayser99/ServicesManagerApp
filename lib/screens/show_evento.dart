@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'dart:io';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:path/path.dart';
+import 'package:open_file/open_file.dart';
+/////////////
 import 'package:services_manager_app/models/eventos_model.dart';
 import 'package:services_manager_app/models/eventosservicios_model.dart';
 import 'package:services_manager_app/providers/eventos_provider.dart';
@@ -58,7 +64,7 @@ class _ShowEventoState extends State<ShowEvento> {
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print(eventoProvider.stringTicketEvento(evento));
+          generatePdf(eventoProvider.stringTicketEvento(evento), evento.id);
         },
         child: const Icon(
           Icons.print,
@@ -131,5 +137,21 @@ class _ShowEventoState extends State<ShowEvento> {
         ),
       ),
     );
+  }
+
+  Future<void> generatePdf(String ticket, int id) async {
+    final pdf = pw.Document();
+    pdf.addPage(
+      pw.Page(
+        build: (pw.Context context) => pw.Center(
+          child: pw.Text(ticket),
+        ),
+      ),
+    );
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    final path = join(appDocDir.path, 'eventoNum$id.pdf');
+    final file = File(path);
+    await file.writeAsBytes(await pdf.save());
+    OpenFile.open(path);
   }
 }

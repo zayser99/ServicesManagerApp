@@ -86,4 +86,20 @@ class CotizacionProvider extends ChangeNotifier {
     totalDelPre = 0;
     serviciosDelPresupuesto = [];
   }
+
+  String stringTicketCotizacion(PresupuestoModel presupuesto) {
+    String ticket = 'COTIZACIÓN\n\n';
+    ticket = ticket + 'folio: #${presupuesto.id}\n\n\n';
+
+    ticket = ticket + 'cantidad    P/U     IMPORTE \n\n';
+    for (var servicio in serviciosDelPresupuesto) {
+      ticket = ticket + '${servicio.nomserv}\n';
+      ticket = ticket +
+          '${servicio.cantidad}         ${servicio.precioU}         ${servicio.cantidad * servicio.precioU} \n';
+    }
+    ticket = ticket + '\n\nTOTAL: \$ ${presupuesto.total} MNX \n\n';
+    ticket = ticket + '\n\npara el Cliente: ${presupuesto.nomcliente}  \n\n';
+    ticket = ticket + '${presupuesto.fecha} \n';
+    return ticket;
+  }
 }

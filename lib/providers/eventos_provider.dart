@@ -89,15 +89,17 @@ class EventosProvider extends ChangeNotifier {
 
   String stringTicketEvento(EventosModel evento) {
     String ticket = 'EVENTO\n\n';
+    ticket = ticket + 'folio: #${evento.id}\n\n\n';
 
-    ticket = ticket + 'cantidad  P/U   IMPORTE \n\n';
+    ticket = ticket + 'cantidad    P/U     IMPORTE \n\n';
     for (var servicio in serviciosDelEvento) {
       ticket = ticket + '${servicio.nomserv}\n';
       ticket = ticket +
-          '${servicio.cantidad}   ${servicio.precioU}   ${servicio.cantidad * servicio.precioU} \n\n';
+          '${servicio.cantidad}        ${servicio.precioU}         ${servicio.cantidad * servicio.precioU} \n';
     }
-    ticket = ticket + 'TOTAL: \$ ${evento.total} MNX \n\n';
-    ticket = ticket + ' ${evento.fecha} a las ${evento.hora} \n';
+    ticket = ticket + '\n\nTOTAL: \$ ${evento.total} MNX \n\n';
+    ticket = ticket + '\n\npara el Cliente: ${evento.nomcliente}  \n\n';
+    ticket = ticket + 'el ${evento.fecha} a las ${evento.hora} \n';
     return ticket;
   }
 }
