@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.SergioZaldivar.flutterservices_manager_app">
+    package="com.example.services_manager_app">
    <application
         android:label="SERV-MANAGER"
         android:icon="@mipmap/launcher_icon">
