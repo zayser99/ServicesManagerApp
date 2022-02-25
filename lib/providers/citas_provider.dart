@@ -41,6 +41,11 @@ class CitasProvider extends ChangeNotifier {
     await DBProvider.db.updateCita(cita);
     notifyListeners();
   }
+
+  editarCita2(CitasModel cita) async {
+    await DBProvider.db.updateCita(cita);
+    notifyListeners();
+  }
   // cargarScanPorTipo(String tipo) async {
   //   // final scans = await DBProvider.db.getScansPorTipo(tipo);
   //   clientes = [...clientes];

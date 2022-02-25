@@ -39,6 +39,11 @@ class ClientesProvider extends ChangeNotifier {
     await DBProvider.db.updateCliente(cliente);
     notifyListeners();
   }
+
+  editarCliente2(ClienteModel cliente) async {
+    await DBProvider.db.updateCliente(cliente);
+    notifyListeners();
+  }
   // cargarScanPorTipo(String tipo) async {
   //   // final scans = await DBProvider.db.getScansPorTipo(tipo);
   //   clientes = [...clientes];
